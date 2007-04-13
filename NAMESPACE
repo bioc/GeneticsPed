@@ -1,0 +1,63 @@
+# Refer to all C/Fortran routines by their name prefixed by R_
+useDynLib(GeneticsPed, .registration=TRUE, .fixes="R_")
+
+## Depends:
+## - gdata: mapLevels, isUnknown, unknownToNA, NAToUnknown
+
+## importFrom(gdata, isUnknown, unknownToNA, NAToUnknown)
+
+export(
+       ## Basic stuff
+       Pedigree,
+       as.Pedigree,
+       is.Pedigree,
+       ## "[.Pedigree",
+
+       ## Pedigree utilities
+       generatePedigree,
+       check,
+       checkId,
+       codeUnit,
+       extend,
+       family,
+       "family<-",
+       generation,
+       "generation<-",
+       geneContribution,
+       isFounder,
+       nIndividual,
+       removeIndividual,
+       summary.Pedigree,
+
+       ## Relatedness
+       geneFlowT,
+       geneFlowTinv,
+       gameteFlowM,
+       kinship,
+       mendelianSamplingD,
+       inbreeding,
+       inverseAdditive,
+       relationshipAdditive,
+
+       ## Other utilities
+       gpi
+       )
+
+S3method(as.Pedigree, data.frame)
+S3method(as.Pedigree, matrix)
+S3method(as.Pedigree, Pedigree)
+
+S3method(as.integer, Pedigree)
+S3method(as.character, Pedigree)
+S3method(as.factor, Pedigree)
+
+S3method(check, Pedigree)
+
+S3method(sort, Pedigree)
+
+S3method(model.matrix, Pedigree)
+
+## S3method(isUnknown, Pedigree)
+## S3method(is.na, Pedigree)
+## S3method(NAToUnknown, Pedigree)
+## S3method(unknownToNA, Pedigree)

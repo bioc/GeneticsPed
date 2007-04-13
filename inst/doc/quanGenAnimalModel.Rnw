@@ -1,0 +1,297 @@
+% quanGenAnimalModel.Rnw
+% -------------------------------------------------------------------------
+% What: Vignette on quantitative genetic (animal) model example in R
+% $Id: quanGenAnimalModel.Rnw 1178 2007-04-03 14:11:47Z ggorjan $
+% Time-stamp: <2007-04-03 13:00:35 ggorjan>
+% -------------------------------------------------------------------------
+
+% --- Vignette stuff ---
+% -------------------------------------------------------------------------
+
+%\VignetteIndexEntry{Quantitative genetic (animal) model example in R}
+%\VignettePackage{GeneticsPed}
+%\VignetteDepends{GeneticsPed, gdata}
+%\VignetteKeywords{phenotype data, pedigree, quantitative genetics, animal model, BLUP, breeding values}
+
+% --- Preamble ---
+% -------------------------------------------------------------------------
+
+% Document class and general packages
+% -------------------------------------------------------------------------
+\documentclass[fleqn,a4paper]{article}  % fleqn - allignment of equations
+                                        % a4paper appropriate page size
+
+\usepackage[authoryear]{natbib}         % Bibliography - Natbib
+\newcommand{\SortNoop}[1]{}             % Sort command for bib entries
+\usepackage{hyperref}
+
+\hypersetup{%
+  pdftitle={Quantitative genetic (animal) model example in R},
+  pdfauthor={Gregor Gorjanc},
+  pdfkeywords={phenotype data, pedigree, quantitative genetics, animal model,
+    BLUP, breeding values}
+}
+
+\newcommand{\email}[1]{\href{mailto:#1}{#1}} % Email command
+
+\makeatletter                           % Allow the use of @ in command names
+
+% Paragraph and page
+% -------------------------------------------------------------------------
+
+\usepackage{setspace}                   % Line spacing
+\onehalfspacing
+\setlength\parskip{\medskipamount}
+\setlength\parindent{0pt}
+
+% --- Lyx Tips&Tricks: better formatting, less hyphenation problems ---
+\tolerance 1414
+\hbadness 1414
+\emergencystretch 1.5em
+\hfuzz 0.3pt
+\widowpenalty=10000
+\vfuzz \hfuzz
+\raggedbottom
+
+% Page size
+\usepackage{geometry}
+\geometry{verbose,a4paper,tmargin=3.0cm,bmargin=3.0cm,lmargin=2.5cm,
+  rmargin=2.5cm,headheight=20pt,headsep=0.7cm,footskip=12pt}
+
+\makeatother                            % Cancel the effect of \makeatletter
+
+% R and friends
+% -------------------------------------------------------------------------
+
+\newcommand{\program}[1]{{\textit{\textbf{#1}}}}
+\newcommand{\code}[1]{{\texttt{#1}}}
+
+% http://www.bioconductor.org/develPage/guidelines/vignettes/vignetteGuidelines.pdf
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+\newcommand{\Rmethod}[1]{{\textit{#1}}}
+\newcommand{\Rfunarg}[1]{{\textit{#1}}}
+
+\newcommand{\R}{\program{R}}
+
+\usepackage{Sweave}                     % Sweave
+\SweaveOpts{strip.white=all, keep.source=TRUE}
+
+<<options, echo=FALSE, results=hide>>=
+options(width=85)
+@
+
+% --- Document ---
+% -------------------------------------------------------------------------
+
+\begin{document}
+
+\title{Quantitative genetic (animal) model example in \R{}}
+\author{
+  Gregor Gorjanc\\
+  \email{gregor.gorjanc@bfro.uni-lj.si}
+}
+
+\maketitle
+
+\section*{Introduction}
+
+The following is just a quick introduction to quantitative genetic model,
+which is usually called animal model in animal breeding scenario. This
+model provides inferences on parameters such as genetic (additive/breeding,
+dominance, \ldots) values and possibly also co-variance components
+(additive genetic variance, heritability, \ldots). Very nice introduction
+to this topic is in \cite{Mrode:2005}, which also gives a list of key
+references. We use example from this book and will therefore be very brief.
+
+This note is mainly for educational purposes. There are quite some programs
+(e.g. \cite{Druet:2006:ISP} mentions \program{ASReml}, \program{BGF90},
+\program{DFREML}, \program{DMU}, \program{MATVEC}, \program{PEST/VCE} and
+\program{WOMBAT}) that can fit animal models in a general manner and we
+suggest to take a look at them instead of trying to reinvent the wheel in
+\R{}.
+
+In short animal model is an example of a mixed model:
+
+\[ \mathbf{y} = \mathbf{X}\mathbf{b} + \mathbf{Z}\mathbf{u} + \mathbf{e},\]
+
+where $\mathbf{y}$ represents a vector of observed (measured) phenotype
+values, $\mathbf{b}$ and $\mathbf{u}$ are vectors of unknown parameters for
+``fixed'' and ``random'' effects, while $\mathbf{X}$ and $\mathbf{Z}$ are
+corresponding design matrices and finally $\mathbf{e}$ is a vector of
+residuals. Assuming normal density for $\mathbf{y}$ the following
+standard assumptions are taken:
+
+\[
+\left(
+\begin{array}{c}
+\mathbf{y}\\
+\mathbf{u}\\
+\mathbf{e}
+\end{array}\right) \sim
+N\left(\begin{array}{c}
+\mathbf{X}\mathbf{b}\\
+\mathbf{0}\\
+\mathbf{0}
+\end{array},
+\begin{array}{ccc}
+\mathbf{V}               & \mathbf{Z}\mathbf{G} & \mathbf{R}\\
+\mathbf{G}\mathbf{Z}^{'} & \mathbf{G}           & \mathbf{0}\\
+\mathbf{R}               & \mathbf{0}           & \mathbf{R}
+\end{array}\right),
+\mathbf{V}=\mathbf{Z}\mathbf{G}\mathbf{Z}^{'}+\mathbf{R}
+\]
+
+Up to now all this is as in usual mixed model. Genetic aspect comes from
+specification of covariance matrix between elements of $\mathbf{u}$, which
+usually represents sum of additive effects of genes of individuals in the
+pedigree.  For a univariate model the covariance matrix of additive effect
+can be written as $\mathbf{G}=\mathbf{A}\sigma^2_u$, where $\mathbf{A}$
+is additive/numerator relationship matrix \citep{Wrigth:1922} and
+$\sigma^2_u$ is additive genetic variance \citep{Falconer:1996}.
+
+\section*{Mixed model equations (MME)}
+
+Solution for $\mathbf{b}$ i.e. (E)BLUE and $\mathbf{u}$ i.e. (E)BLUP can be
+obtained from \citep{Henderson:1949,Goldberger:1962,Henderson:1963}:
+
+\[
+\hat{\mathbf{b}}=\left(\mathbf{X}\mathbf{V}^{-1}\mathbf{X}\right)^{-}\mathbf{X}\mathbf{V}^{-1}\mathbf{y},\]
+
+and
+
+\[
+\hat{\mathbf{u}}=\mathbf{G}\mathbf{Z}^{'}\mathbf{V}^{-1}\left(\mathbf{y}-\mathbf{X}\hat{\mathbf{b}}\right),\]
+
+but in a case with a lot of records the size of $\mathbf{V}$ is huge and
+its direct inverse prohibitive if possible at all. \cite{Henderson:1950}
+presented the solution to this problem with so called mixed model
+equations:
+
+\[
+\left(\begin{array}{cc}
+\mathbf{X}^{'}\mathbf{R}^{-1}\mathbf{X} & \mathbf{X}^{'}\mathbf{R}^{-1}\mathbf{Z}\\
+\mathbf{Z}^{'}\mathbf{R}^{-1}\mathbf{X} & \mathbf{Z}^{'}\mathbf{R}^{-1}\mathbf{Z}+\mathbf{G}^{-1}\end{array}\right)\left(\begin{array}{c}
+\hat{\mathbf{b}}\\
+\hat{\mathbf{u}}\end{array}\right)=\left(\begin{array}{c}
+\mathbf{X}^{'}\mathbf{R}^{-1}\mathbf{y}\\
+\mathbf{Z}^{'}\mathbf{R}^{-1}\mathbf{y}\end{array}\right).\]
+
+\section*{Data}
+
+We will use pedigree and data example from \cite{Mrode:2005}. Example shows
+a beef breeding scenario with 8 individuals (animals), where 5 of them have
+phenotype records (pre-weaning gain in kg) and 3 three of them are without
+records and link others through the pedigree.
+
+<<data>>=
+library(GeneticsPed)
+data(Mrode3.1)
+(x <- Pedigree(x=Mrode3.1, subject="calf", ascendant=c("sire", "dam"),
+               ascendantSex=c("Male", "Female"), sex="sex"))
+@
+
+\section*{The model}
+
+
+For this baby BLUP example we will postulate the following model:
+
+\[ y_{ij} = s_i + a_j + e_{ij},\]
+
+where $y_{ij}$ is pre-weaning gain (kg) of calf $j$ of sex $j$; $s_i$ are
+parameters of sex effect, while $a_j$ are parameters of additive genetic
+effect for pre-weaning gain and finally $e_{ij}$ is residual. Variances for
+$a_j$ and $e_{ij}$ are assumed as $\mathbf{G}=\mathbf{A}\sigma^2_a$ with
+$\sigma^2_a=20~kg^2$ and $\mathbf{R}=\mathbf{I}\sigma^2_e$ with
+$\sigma^2_e=40~kg^2$.
+
+\section*{Setting up the MME}
+
+Observed/measured phenotype records:
+
+<<y>>=
+(y <- x$pwg)
+@
+
+Design matrix ($\mathbf{X}$) for sex effect:
+
+<<X>>=
+X <- model.matrix(~ x$sex - 1)
+t(X)
+@
+
+Design matrix ($\mathbf{Z}$) for additive genetic effect. Note that first
+three columns do not have indicators since these columns are for
+individuals without phenotype records and apear in the model only through
+the pedigree.
+
+<<Z>>=
+(Z <- model.matrix(object=x, y=x$pwg, id=x$calf))
+@
+
+Left hand side (LHS) of MME without $\mathbf{G}^{-1}$:
+
+<<LHS>>=
+LHS <- rbind(cbind(t(X) %*% X, t(X) %*% Z),
+             cbind(t(Z) %*% X, t(Z) %*% Z))
+## or more efficiently
+(LHS <- rbind(cbind(crossprod(X),    crossprod(X, Z)),
+              cbind(crossprod(Z, X), crossprod(Z))))
+@
+
+and adding $\mathbf{G}^{-1}$, which is in this case $\mathbf{A}^{-1}\alpha$
+and $\alpha = \frac{\sigma^2_e}{\sigma^2_a} =\frac{40}{20}=2$.
+
+<<LHS2>>=
+## We want Ainv for all individuals in the pedigree not only individuals
+##   with records
+x <- extend(x)
+Ainv <- inverseAdditive(x=x)
+sigma2a <- 20
+sigma2e <- 40
+alpha <- sigma2e / sigma2a
+q <- nIndividual(x)
+p <- nrow(LHS) - q
+(LHS[(p + 1):(p + q), (p + 1):(p + q)] <-
+ LHS[(p + 1):(p + q), (p + 1):(p + q)] + Ainv * alpha)
+@
+
+Right hand side (RHS) of MME:
+
+<<RHS>>=
+RHS <- rbind(t(X) %*% y,
+             t(Z) %*% y)
+## or more efficiently
+RHS <- rbind(crossprod(X, y),
+             crossprod(Z, y))
+t(RHS)
+@
+
+\section*{Solution}
+
+<<solve>>=
+sol <- solve(LHS) %*% RHS
+## or more efficiently
+sol <- solve(LHS, RHS)
+t(sol)
+@
+
+That's all folks! Well, all for the introduction. There are numerous issues
+covered in the literature. A good starting point is \cite{Mrode:2005} as
+already mentioned in the beginning.
+
+\section*{R Session information}
+
+<<sessionInfo, results=tex>>=
+toLatex(sessionInfo())
+@
+
+\bibliographystyle{apalike}
+\bibliography{library}
+
+\end{document}
+
+% -------------------------------------------------------------------------
+% quanGenAnimalModel.Rnw ends here

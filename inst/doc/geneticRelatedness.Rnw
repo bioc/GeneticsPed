@@ -1,0 +1,134 @@
+% geneticRelatedness.Rnw
+% -------------------------------------------------------------------------
+% What: Vignette on calculation of genetic relatedness between individuals
+%       in the pedigree
+% $Id: geneticRelatedness.Rnw 1179 2007-04-03 14:13:02Z ggorjan $
+% Time-stamp: <2007-04-01 01:08:51 ggorjan>
+% -------------------------------------------------------------------------
+
+% --- Vignette stuff ---
+% -------------------------------------------------------------------------
+
+%\VignetteIndexEntry{Calculation of genetic relatedness/relationship between individuals in the pedigree}
+%\VignettePackage{GeneticsPed}
+%\VignetteDepends{GeneticsPed, gdata}
+%\VignetteKeywords{genetics, relatedness, relationship, kinship, inbreeding, additive, dominance, epistatic}
+
+% --- Preamble ---
+% -------------------------------------------------------------------------
+
+% Document class and general packages
+% -------------------------------------------------------------------------
+\documentclass[fleqn,a4paper]{article}  % fleqn - allignment of equations
+                                        % a4paper appropriate page size
+
+\usepackage[authoryear]{natbib}         % Bibliography - Natbib
+\newcommand{\SortNoop}[1]{}             % Sort command for bib entries
+\usepackage{hyperref}
+
+\hypersetup{%
+  pdftitle={Calculation of genetic relatedness/relationship between individuals
+    in the pedigree},
+  pdfauthor={Gregor Gorjanc and David A. Henderson},
+  pdfkeywords={genetics, relatedness, relationship, kinship, inbreeding,
+    additive, dominance, epistatic}
+}
+
+\newcommand{\email}[1]{\href{mailto:#1}{#1}} % Email command
+
+\makeatletter                           % Allow the use of @ in command names
+
+% Paragraph and page
+% -------------------------------------------------------------------------
+
+\usepackage{setspace}                   % Line spacing
+\onehalfspacing
+\setlength\parskip{\medskipamount}
+\setlength\parindent{0pt}
+
+% --- Lyx Tips&Tricks: better formatting, less hyphenation problems ---
+\tolerance 1414
+\hbadness 1414
+\emergencystretch 1.5em
+\hfuzz 0.3pt
+\widowpenalty=10000
+\vfuzz \hfuzz
+\raggedbottom
+
+% Page size
+\usepackage{geometry}
+\geometry{verbose,a4paper,tmargin=3.0cm,bmargin=3.0cm,lmargin=2.5cm,
+  rmargin=2.5cm,headheight=20pt,headsep=0.7cm,footskip=12pt}
+
+\makeatother                            % Cancel the effect of \makeatletter
+
+% R and friends
+% -------------------------------------------------------------------------
+
+\newcommand{\program}[1]{{\textit{\textbf{#1}}}}
+\newcommand{\code}[1]{{\texttt{#1}}}
+
+% http://www.bioconductor.org/develPage/guidelines/vignettes/vignetteGuidelines.pdf
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+\newcommand{\Rmethod}[1]{{\textit{#1}}}
+\newcommand{\Rfunarg}[1]{{\textit{#1}}}
+
+\newcommand{\R}{\program{R}}
+
+\usepackage{Sweave}                     % Sweave
+\SweaveOpts{strip.white=all, keep.source=TRUE}
+
+<<options, echo=FALSE, results=hide>>=
+options(width=85)
+@
+
+% --- Document ---
+% -------------------------------------------------------------------------
+
+\begin{document}
+
+\title{Calculation of genetic relatedness/relationship between individuals
+  in the pedigree}
+
+\author{
+  Gregor Gorjanc\\
+  \email{gregor.gorjanc@bfro.uni-lj.si},\\
+  David A. Henderson\\
+  \email{dnadave@insightful.com}
+}
+
+\maketitle
+
+\section*{Introduction}
+
+\section*{?}
+
+\subsection*{Kinship?}
+
+\cite{Wright:1922}, Malecot 1948, Emik and Terill 1949
+
+\cite{Falconer:1996}
+\cite{LynchWalsh:1998}
+
+
+\cite{Meuwissen:1992}
+\cite{Boichard:2002}
+\cite{Sargolzaei:2005}
+
+\cite{Oliehoek:2006} on various relatedness estimators between individuals
+in general i.e. panmictic and structured populations.
+
+<<bla>>=
+1+1
+@
+
+\bibliographystyle{apalike}
+\bibliography{library}
+
+\end{document}
+
+% -------------------------------------------------------------------------
+% geneticRelatedness.Rnw ends here

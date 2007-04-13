@@ -1,0 +1,72 @@
+# NEWS
+#--------------------------------------------------------------------------
+# What: What are the news for GeneticsPed?
+# Time-stamp: <2007-04-03 16:08:08 ggorjan>
+#--------------------------------------------------------------------------
+
+# 0.1.2
+#--------------------------------------------------------------------------
+
+o Now we are more rigorous for value of ascendantSex argument in
+  Pedigree(). It must accord to values in sex column, if that one is passed
+  of course. [2007-04-01]
+
+o MASS added to depends due to use of fractions() in many places in
+  documnetation. [2007-04-01]
+
+o Added vignette on quantitative genetic (animal) model and
+  model.matrix.Pedigree() functions for educational purposes. [2007-03-31]
+
+o Created data directory and added pedigree example Mrode2.1 and
+  Mrode3.1. [2007-03-31]
+
+o Added unit tests for genetic relationship matrices that should test all
+  related functions - mainly against Mrode's book examples -
+  runit.genRelMatrix.R. [2007-03-31]
+
+o Added arguments sort and names to inverseAdditive(), relationshipAdditive()
+  and inbreeding(). [2007-03-31]
+
+o Reworked core for relationshipAdditive() into vectorized form. [2007-03-30]
+
+o Added geneFlowT(), geneFlowTinv(), geneFlowM() and mendelianSamplingD()
+  functions. [2007-03-30/31]
+
+o Registration of native routines - src/register.cc. [2007-03-02]
+
+o Added gpi() function. [2007-03-02]
+
+# 0.1.1
+#--------------------------------------------------------------------------
+
+o Temporarily removed unknown funcs, due to planned move to BioC and change
+  to S4.
+
+o All depends are now in gdata --> removing ggmisc.
+
+# 2006-03-29
+#--------------------------------------------------------------------------
+
+o codeUnit to get internal codes for subject and ascendants if factors are
+  used
+
+o Handled unused levels in nlevels.pedigree and summary.pedigree now
+  produces a simple summary
+
+o Started to implement checks in check.pedigree and friends
+
+o Proper factor handling
+
+# 2006-03-16
+#--------------------------------------------------------------------------
+
+o Playing around with NA/unknown representation - it is very likely that I
+  messed up some things with factors --> subject to changes.
+
+# Version 0.1
+#--------------------------------------------------------------------------
+
+o Initial version
+
+#--------------------------------------------------------------------------
+# NEWS ends here

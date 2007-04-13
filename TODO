@@ -1,0 +1,135 @@
+### TODO
+###------------------------------------------------------------------------
+### What: TODO list. I hope it will not grow to much ;) List is in no
+###       particular order.
+### Time-stamp: <2007-04-02 06:53:43 ggorjan>
+###------------------------------------------------------------------------
+
+### {{{ BUGS
+###------------------------------------------------------------------------
+
+o extend bug noticed in R2VCE and problems with all relationship functions
+
+### }}}
+### {{{ PROBLEMS
+###------------------------------------------------------------------------
+
+### }}}
+### {{{ Recode
+
+nm <- unique(c(as.character(col1), as.character(col2), as.character(col3)))
+
+DF[] <- lapply(DF, function(x) match(x, nm))
+
+### }}}
+### {{{ Other
+###------------------------------------------------------------------------
+
+integer, factor and character; all numeric to integer
+
+should we use NULL or NA for default in Pedigree for family, etc.? It would
+   be nice to be consistent with col
+- check all instances of unknown, since it is already NULL in pedigree
+
+* head/tail?
+
+* default classes for dates i.e. dtBirth
+
+### }}}
+### {{{ IDEAS
+###------------------------------------------------------------------------
+
+# --- pedigree ---
+# - should we add attribute drop? - this might be usefull if user does not
+#   use drop=TRUE
+#
+# - does codeUnit handle unknown attribute?
+
+# --- unknown ---
+# - modify nlevels so that is accounts for unknown level in factors and
+#   pedigree
+
+# --- Check ---
+# - check (look in kinship for some of them)
+# - values in sex and ascendantSex
+# - dtBirth
+# - rico has some checks
+# - circular pedigree id its own ascendant
+# - id more than once - is this implemented?
+
+# --- Sex ---
+# 1 male
+# 2 female
+# 0 unknown --> NA would be more natural to use
+#   terminated (this is in kinship; what is the meaning)
+# - simple to use with extend
+
+# --- Generation ---
+# - does it happen somewhere that
+#   generation come in real i.e. 1.5
+
+# --- Misc ---
+# - getRelative
+#   getAscendant
+#   getDescendant
+
+#  this should be done recursively for given number of generations
+
+# getRelatives(x, type=c("ascendant", "descendant", "sibs??"))
+
+# - buildPedigree(direction=c("up", "down")) should cover this all nicely
+
+# - add, remove subjects - would be nice, since rbind and factors?
+
+
+# --- Rel. matrices ---
+# - A sex account
+#   A(method = "tabular.sex")
+# - D
+# - gametic matrix
+# - IBD
+# - markerRelationship or alelleRelationship i.e. something like Visscher:2006
+# - sparse matrices
+# - sampling of matrix inverse
+# - Kachman paper
+
+# --- generatePedigree ---
+# discrete/overlapping generations option
+# add dtBirth "generationInterval" from first descendant - perhaps this
+#  should be new function to extend dtBirth
+
+# --- Prop.pedigree ---
+# sex specific in prop
+
+# --- Genetics groups ---
+# genetic groups - then one should not extend pedigree - do we need some mark
+# for that or what - is this only PEST/VCE way of work?
+# link with extend
+
+# --- Connectednes ---
+# - genetic one Kennedy:...
+
+# --- Documenatation ---
+
+# --- Unknown ---
+# - we allow NA for subject in NAtoUnknown.pedigre - this relates to
+#   strictness of subjectIsNA?
+# - NAtoUnknown doesn't work with integers
+
+# --- Extend ---
+# - combineLevels? for factors
+
+# --- Small populations et al. ---
+# - mean kinship is average of kinship coefs. between individual and all
+#   living individuals (including itself)
+
+# trim/prune
+### }}}
+### {{{ Dear Emacs
+## Local variables:
+## folded-file: t
+## End:
+### }}}
+
+###------------------------------------------------------------------------
+### TODO ends here

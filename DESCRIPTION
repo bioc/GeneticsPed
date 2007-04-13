@@ -1,0 +1,16 @@
+Package: GeneticsPed
+Type: Package
+Title: Pedigree and genetic relationship functions
+Version: 0.1.2
+Date: 2007-04-03
+Author: Gregor Gorjanc and David A. Henderson <dnadave@insightful.com>,
+  with code contributions by Brian Kinghorn and Andrew Percy
+  (see file COPYING)
+Maintainer: Gregor Gorjanc <gregor.gorjanc@bfro.uni-lj.si>
+Description: Classes and methods for handling pedigree data. It
+  also includes functions to calculate genetic relationship measures
+  as relationship and inbreeding coefficients and other utilities
+Depends: R (>= 2.4.0), gdata (>= 2.3.0), MASS
+biocViews: Genetics
+License: LGPL version 2.1 or later
+URL: http://rgenetics.org
