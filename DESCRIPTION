@@ -1,7 +1,7 @@
 Package: GeneticsPed
 Type: Package
 Title: Pedigree and genetic relationship functions
-Version: 0.1.2
+Version: 0.99.0
 Date: 2007-04-03
 Author: Gregor Gorjanc and David A. Henderson <dnadave@insightful.com>,
   with code contributions by Brian Kinghorn and Andrew Percy
