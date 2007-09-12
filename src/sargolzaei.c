@@ -69,6 +69,7 @@ void sargolzaei( int* n , int * m )
     }
     for(j = 1; j < MIP; j++) // trace forth the reduced pedigree
       x[j] += (x[rPed[j][0]] + x[rPed[j][1]]) * 0.5f;
+    N= *n+1;
     for(i=0; i < N; i++)     // obtain F for progeny of the current father
       if(S != Ped[SId[i]][0]) break;
       else F[SId[i]] = x[Link[Ped[SId[i]][1]]] * 0.5f;
