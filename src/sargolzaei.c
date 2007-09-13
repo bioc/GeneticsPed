@@ -2,7 +2,7 @@
  *-------------------------------------------------------------------------
  * What: Compute inbreeding coefficients Sargolzaei:2005
  * $Id: sargolzaei.c 1149 2007-03-01 11:24:18Z ggorjan $
- * Time-stamp: <2007-02-28 23:59:37 ggorjan>
+ * Time-stamp: <2007-04-19 02:48:49 ggorjan>
  *-----------------------------------------------------------------------*/
 
 void MyQuickSort( int Ped[][2] , int *SId );
@@ -10,7 +10,7 @@ void sargolzaei( int* n , int * m );
 
 void sargolzaei( int* n , int * m )
 {
-  // n; number of subjects in total
+  // n; number of individuals in total
   // m; number of fathers and mothers in total
 
   /* Variable declaration  */
@@ -49,7 +49,7 @@ void sargolzaei( int* n , int * m )
     // determine maximum id of parents for each paternal group
   }
 
-  // sort subjects according to id of their sires into SId
+  // sort individuals according to id of their sires into SId
   MyQuickSort(Ped, SId);
 
   for(k = i = 1; i <= *n;) {

@@ -21,12 +21,12 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
         vector< string >::const_iterator fs = find( damlist.begin() , damlist.end() , mp->ReturnSire() );
         if ( fs != damlist.end() )
         {
-          Rprintf("Sire: %s is also in the pedigree as a Dam\n", mp->ReturnSire().c_str());
+          Rprintf("Father: %s is also in the pedigree as a mother\n", mp->ReturnSire().c_str());
           ped_problem = true;
         }
         if ( mp->ReturnAnimal() == mp->ReturnSire() )
         {
-          Rprintf("Individual: %s is also in the pedigree its Sire: %s\n", mp->ReturnAnimal().c_str(), mp->ReturnSire().c_str());
+          Rprintf("Individual: %s is also in the pedigree its father: %s\n", mp->ReturnAnimal().c_str(), mp->ReturnSire().c_str());
           ped_problem = true;
         }
         sirelist.insert( sirelist.end() , mp->ReturnSire() );
@@ -36,12 +36,12 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
         vector< string >::const_iterator fd = find( sirelist.begin() , sirelist.end() , mp->ReturnDam() );
         if ( fd != sirelist.end() )
         {
-          Rprintf("Dam: %s is also in the pedigree as a Sire\n", mp->ReturnDam().c_str());
+          Rprintf("Mother: %s is also in the pedigree as a father\n", mp->ReturnDam().c_str());
           ped_problem = true;
         }
         if ( mp->ReturnAnimal() == mp->ReturnDam() )
         {
-          Rprintf("Individual: %s is also in the pedigree its Dam: %s\n", mp->ReturnAnimal().c_str(), mp->ReturnDam().c_str());
+          Rprintf("Individual: %s is also in the pedigree its mother: %s\n", mp->ReturnAnimal().c_str(), mp->ReturnDam().c_str());
           ped_problem = true;
         }
         damlist.insert( damlist.end() , mp->ReturnDam() );

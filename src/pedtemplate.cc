@@ -425,7 +425,7 @@ bool TPed::operator== ( const string& arg )
 
 void TPed::ShowPed()
 {
-  Rprintf("Animal: %s Sire: %s Dam: %s", animal.c_str(), sire.c_str(), dam.c_str());
+  Rprintf("Individual: %s Father: %s Mother: %s", animal.c_str(), sire.c_str(), dam.c_str());
   if ( IsBase() == 0 )
   {
     Rprintf(" s_index: %d d_index: %d\n", *s_index, *d_index);
