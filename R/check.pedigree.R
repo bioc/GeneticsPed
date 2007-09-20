@@ -1,8 +1,8 @@
 ### check.Pedigree.R
 ###------------------------------------------------------------------------
 ### What: Check Pedigree for common errors
-### $Id: check.pedigree.R 1096 2006-11-14 06:08:39Z ggorjan $
-### Time-stamp: <2006-11-14 07:07:16 ggorjan>
+### $Id: check.pedigree.R 1189 2007-04-06 10:58:28Z ggorjan $
+### Time-stamp: <2007-09-07 09:30:17 ggorjan>
 ###------------------------------------------------------------------------
 
 check <- function(x, ...)
@@ -11,47 +11,49 @@ check <- function(x, ...)
 check.Pedigree <- function(x, ...)
 {
   checkId(x)
-  if(!is.na(attr(x, ".sex")))
-    checkSex(x)
-  if(!is.na(attr(x, ".dtBirth")))
-    checkDtBirth(x)
+  if(!is.na(getSexName(x))) checkSex(x)
+  ##  if(!is.na(getDtBirthName(x))) checkDtBirth(x)
 }
 
-checkAttributes <- function(x, coded=FALSE, sorted=FALSE, extended=FALSE,
-                            unknownNA=FALSE)
+checkAttributes <- function(x, coded=FALSE, extended=FALSE, sorted=FALSE,
+                            unknownNA=FALSE, ...)
 {
+  ## --- Class ---
+
   if(!is.Pedigree(x)) {
-    msg <- sprintf("Coercing to %s class\n", dQuote("Pedigree"))
-    cat(msg)
+    if(options()$verbose)
+      cat(sprintf("Coercing to %s class\n", dQuote("Pedigree")))
     x <- Pedigree(x)
   }
 
-  if(!attr(x, ".coded") & coded) {
-    msg <- "Coding - (not yet implemented)\n"
-    cat(msg)
+  ## --- Renumber ---
+
+  if(!getCoded(x) & coded) {
+    if(options()$verbose) cat("Coding - (not yet implemented)\n")
     ## x <- ???(x)
   }
 
-  if(!attr(x, ".sorted") & sorted) {
-    msg <- "Sorting\n"
-    cat(msg)
-    #x <- sort(x)
-    x <- sort.Pedigree(x)
+  ## --- Extend ---
+
+  if(!getExtended(x) & extended) {
+    if(options()$verbose) cat("Extending\n")
+    x <- extend(x, ...)
   }
 
-  if(!attr(x, ".extended") & extended) {
-    msg <- "Extending\n"
-    cat(msg)
-    x <- extend(x)
+  ## --- Sort ---
+
+  if(!getSorted(x) & sorted) {
+    if(options()$verbose) cat("Sorting\n")
+    x <- sort(x, ...)
   }
 
-  if(any(!is.na(attr(x, ".unknown")$.id)) & unknownNA) {
-    msg <- paste("Unknown to NA\n")
-    cat(msg)
+  ## --- Unknown ---
+
+  if(any(!is.na(getUnknown(x)$.id)) & unknownNA) {
+    if(options()$verbose) cat("Unknown to NA\n")
     stop("no unknown handling at the moment")
-    ## x <- unknownToNA.Pedigree(x)
+    ## FIXME: x <- unknownToNA.Pedigree(x)
   }
-  ##  cat("End\n")
   x
 }
 
@@ -62,14 +64,14 @@ checkId <- function(x)
 
   idClass(x)
 
-  ret$subjectIsNA <- subjectNA(x)
-  if(is.list(ret$subjectIsNA)) error <- TRUE
+  ret$idIsNA <- idIsNA(x)
+  if(is.list(ret$idIsNA)) error <- TRUE
 
-  ret$subjectNotUnique <- subjectNotUnique(x)
-  if(is.list(ret$subjectNotUnique)) error <- TRUE
+  ret$idNotUnique <- idNotUnique(x)
+  if(is.list(ret$idNotUnique)) error <- TRUE
 
-  ret$subjectEqualAscendant <- subjectEqualAscendant(x)
-  if(is.list(ret$subjectEqualAscendant)) error <- TRUE
+  ret$idEqualAscendant <- idEqualAscendant(x)
+  if(is.list(ret$idEqualAscendant)) error <- TRUE
 
   ret$ascendantEqualAscendant <- ascendantEqualAscendant(x)
   if(is.list(ret$ascendantEqualAscendant)) error <- TRUE
@@ -89,26 +91,27 @@ checkId <- function(x)
 
 idClass <- function(x)
 {
-  col <- c(attr(x, ".subject"), attr(x, ".ascendant"))
+  col <- c(getIdName(x), getAscendantName(x))
   tmp <- lapply(x[, col], class)
-  if(any(tmp != class(x[[attr(x, ".subject")]])))
+  if(any(tmp != class(getId(x))))
     stop(sprintf("columns %s must have the same class",
                  paste(sQuote(col), collapse=", ")))
 }
 
-subjectIsNA <- function(x)
+idIsNA <- function(x)
 {
   error <- FALSE
   ret <- list()
 
-  ## --- Subject can not be NA ---
-  tmp <- is.na(x[[attr(x, ".subject")]])
+  ## --- Id can not be NA ---
+
+  tmp <- is.na(getId(x))
   if(any(tmp)) {
     error <- TRUE
-    ret$subjectIsNA <- list()
-    ret$subjectIsNA$message <- sprintf("%s id can not be NA",
-                                       sQuote(attr(x, ".subject")))
-    ret$subjectIsNA$rowIndex <- which(tmp)
+    ret$idIsNA <- list()
+    ret$idIsNA$message <- sprintf("%s id can not be NA",
+                                  sQuote(getIdName(x)))
+    ret$idIsNA$rowIndex <- which(tmp)
   }
   if(error) {
     return(ret)
@@ -117,21 +120,22 @@ subjectIsNA <- function(x)
   }
 }
 
-subjectNotUnique <- function(x)
+idNotUnique <- function(x)
 {
   error <- FALSE
   ret <- list()
 
-  ## --- Subject must be unique ---
-  if(nrow(x) != length(unique(x[[attr(x, ".subject")]]))) { # test is cheap
-    tmp <- table(x[[attr(x, ".subject")]])
+  ## --- Id must be unique ---
+
+  if(nrow(x) != length(unique(getId(x)))) { # test is cheap
+    tmp <- table(getId(x))
     tmp <- tmp[tmp > 1]
-    tmp <- x[[attr(x, ".subject")]] %in% names(tmp)
+    tmp <- getId(x) %in% names(tmp)
     error <- TRUE
-    ret$subjectNotUnique <- list()
-    ret$subjectNotUnique$message <- sprintf("%s must be unique",
-                                            sQuote(attr(x, ".subject")))
-    ret$subjectNotUnique$rowIndex <- which(tmp)
+    ret$idNotUnique <- list()
+    ret$idNotUnique$message <- sprintf("%s must be unique",
+                                       sQuote(getIdName(x)))
+    ret$idNotUnique$rowIndex <- which(tmp)
   }
   if(error) {
     return(ret)
@@ -140,29 +144,30 @@ subjectNotUnique <- function(x)
   }
 }
 
-subjectEqualAscendant <- function(x)
+idEqualAscendant <- function(x)
 {
   error <- FALSE
   ret <- list()
 
-  ## --- Subject can not be equal to ascendant ---
-  col <- attr(x, ".ascendant")
+  ## --- Id can not be equal to ascendant ---
+
+  col <- getAscendantName(x)
   for(i in seq(along=col)) {
-    if(attr(x, ".colClass") == "factor") {
-      tmp <- as.character(x[[attr(x, ".subject")]]) == as.character(x[[col[i]]])
+    if(getColClass(x) == "factor") {
+      tmp <- as.character(getIdName(x)) == as.character(x[[col[i]]])
     } else {
-      tmp <- x[[attr(x, ".subject")]] == x[[col[i]]]
+      tmp <- getIdName(x) == x[[col[i]]]
     }
-    tmp[is.na(tmp)] <- FALSE # NA come in if subject is NA - I get this
+    tmp[is.na(tmp)] <- FALSE # NA come in if id is NA - I get this
                              # one above or if ascendant is NA, which is OK
     if(any(tmp)) {
       error <- TRUE
       retTmp <- vector("list", 1)
-      retName <- paste(attr(x, ".subject"), "Equals", col[i], sep="")
+      retName <- paste(getIdName(x), "Equals", col[i], sep="")
       names(retTmp) <- retName
       ret <- c(ret, retTmp)
       ret[[retName]]$message <- sprintf("%s id can not be equal to id of %s",
-                                        sQuote(attr(x, ".subject")),
+                                        sQuote(getIdName(x)),
                                         sQuote(col[i]))
       ret[[retName]]$rowIndex <- which(tmp)
     }
@@ -180,11 +185,11 @@ ascendantEqualAscendant <- function(x)
   ret <- list()
 
   ## --- Ascendant can not be equal to ascendant ---
-  col <- attr(x, ".ascendant")
+  col <- getAscendantName(x)
   for(i in seq(along=col)) {
     for(j in seq(along=col)) {
       if(j > i) {
-        if(attr(x, ".colClass") == "factor") {
+        if(getColClass(x) == "factor") {
           tmp <- as.character(x[[col[i]]]) == as.character(x[[col[j]]])
         } else {
           tmp <- x[[col[i]]] == x[[col[j]]]
@@ -218,22 +223,22 @@ ascendantInAscendant <- function(x)
   ret <- list()
 
   ## --- Ascendant can not be in ascendant of a different sex ---
-  col <- attr(x, ".ascendant")
-  colSex <- attr(x, ".ascendantSex")
+  col <- getAscendantName(x)
+  colSex <- getAscendantSex(x)
 
   ## Put ascendants of equal sex together
   sex <- unique(colSex)
   tmp <- vector(mode="list", length=length(sex))
   names(tmp) <- sex
   for(i in seq(along=sex)) {
-    if(attr(x, ".colClass") == "factor") {
+    if(getColClass(x) == "factor") {
       map <- mapLevels(x=x[, col[colSex == sex[i]]], combine=TRUE, codes=FALSE)
       mapLevels(x[, col[colSex == sex[i]]]) <- map
     }
     for(j in seq(along=col[colSex == sex[i]])) {
       tmp[[sex[i]]] <- c(tmp[[sex[i]]], x[, col[colSex == sex[i]][j]])
     }
-    if(attr(x, ".colClass") == "factor") {
+    if(getColClass(x) == "factor") {
       tmp[[sex[i]]] <- factor(tmp[[sex[i]]])
       mapLevels(tmp[[sex[i]]]) <- map
     }
@@ -243,7 +248,7 @@ ascendantInAscendant <- function(x)
   for(i in seq(along=sex)) {
     for(j in seq(along=sex)) {
       if(j > i) {
-        if(attr(x, ".colClass") == "factor") {
+        if(getColClass(x) == "factor") {
           tmp1 <- as.character(tmp[[i]]) %in% as.character(tmp[[j]]) & !is.na(tmp[[i]])
         } else {
           tmp1 <- tmp[[i]] %in% tmp[[j]] & !is.na(tmp[[i]])
@@ -283,9 +288,9 @@ unusedLevels <- function(x)
   ret <- list()
 
   ## --- Unused levels ---
-  col <- attr(x, ".ascendant")
-  if(attr(x, ".colClass") == "factor") {
-    col <- c(attr(x, ".subject"), attr(x, ".ascendant"))
+  col <- getAscendantName(x)
+  if(getColClass(x) == "factor") {
+    col <- c(getIdName(x), getAscendantName(x))
     for(i in seq(along=col)) {
       lev1 <- levels(factor(x[[col[i]]]))
       tmp <- length(lev1)
@@ -309,12 +314,47 @@ unusedLevels <- function(x)
   }
 }
 
-## checkSex <- function(x)
-## {
-##   ## - sex could be checked from knowledge that sires are in second column or
-##   ##   something like that from attrs
-##   ## - subject that appears as ascendant can also be checked for its sex value
-## }
+checkSex <- function(x)
+{
+  ## --- Setup ---
+
+  error <- FALSE
+  ret <- list()
+
+  ascendant <- getAscendantName(x)
+  ascendantSex <- getAscendantSex(x)
+  sexV <- getSex(x)
+
+  ## --- Core ---
+
+  for(i in seq(along=ascendant)) {
+    ## Test sex in individuals that appear as ascendants and that have known sex
+    test <- sexV[getId(x) %in% getAscendant(x)[[i]] &
+                 !(sexV %in% getUnknown(x)$.sex)] != ascendantSex[i]
+    if(any(test)) {
+      ## Test to get an individual with positive upper test
+      test <- which(getId(x) %in%
+                    getAscendant(x)[[i]] &
+                    !(sexV %in% getUnknown(x)$.sex) &
+                    !(sexV %in% ascendantSex[i]))
+      error <- TRUE
+      retTmp <- vector("list", 1)
+      retName <- paste("wrongSexFor", ascendant[i], sep="")
+      names(retTmp) <- retName
+      ret <- c(ret, retTmp)
+      ret[[retName]]$message <- sprintf("Should be %s", ascendantSex[i])
+      ret[[retName]]$rowIndex <- test
+    }
+  }
+
+  ## --- End ---
+
+  if(error) {
+    return(ret)
+  } else {
+    return(0)
+  }
+}
 
 ## checkDtBirth <- function(x)
 ## {

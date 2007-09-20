@@ -2,7 +2,7 @@
 %--------------------------------------------------------------------------
 % What: Check Pedigree attributes
 % $Id: check.Rd 1092 2006-11-12 12:28:38Z ggorjan $
-% Time-stamp: <2006-09-30 01:39:58 ggorjan>
+% Time-stamp: <2007-09-20 13:21:45 ggorjan>
 %--------------------------------------------------------------------------
 
 \name{check}
@@ -29,14 +29,14 @@ checkId(x)
 
 \details{
 
-  \code{checkId} performs various checks on subjects and
+  \code{checkId} performs various checks on individuals and
   their ascendants. These checks are:
   \itemize{
     \item idClass: all ids must have the same class
-    \item subjectIsNA: subject can not be NA
-    \item subjectNotUnique: subject must be unique
-    \item subjectEqualAscendant: subject can not be equal (in
-      identification) to its ascendant
+    \item idIsNA: individual can not be \code{NA}
+    \item idNotUnique: individual must be unique
+    \item idEqualAscendant: individual can not be equal
+      to its ascendant
     \item ascendantEqualAscendant: ascendant can not be equal to another
       ascendant
     \item ascendantInAscendant: ascendant can not appear again as
@@ -79,20 +79,20 @@ checkId(x)
   class(tmp$father)
   try(GeneticsPed:::idClass(tmp))
 
-  ## --- subjectIsNA ---
+  ## --- idIsNA ---
   tmp <- generatePedigree(2)
   tmp[1, 1] <- NA
-  GeneticsPed:::subjectIsNA(tmp)
+  GeneticsPed:::idIsNA(tmp)
 
-  ## --- subjectNotUnique ---
+  ## --- idNotUnique ---
   tmp <- generatePedigree(2)
   tmp[2, 1] <- 1
-  GeneticsPed:::subjectNotUnique(tmp)
+  GeneticsPed:::idNotUnique(tmp)
 
-  ## --- subjectEqualAscendant ---
+  ## --- idEqualAscendant ---
   tmp <- generatePedigree(2)
   tmp[3, 2] <- tmp[3, 1]
-  GeneticsPed:::subjectEqualAscendant(tmp)
+  GeneticsPed:::idEqualAscendant(tmp)
 
   ## --- ascendantEqualAscendant ---
   tmp <- generatePedigree(2)
