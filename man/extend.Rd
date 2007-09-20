@@ -2,7 +2,7 @@
 %--------------------------------------------------------------------------
 % What: Extend pedigree man page
 % $Id: extend.Rd 1092 2006-11-12 12:28:38Z ggorjan $
-% Time-stamp: <2006-09-30 01:39:43 ggorjan>
+% Time-stamp: <2007-04-19 02:37:55 ggorjan>
 %--------------------------------------------------------------------------
 
 \name{extend}
@@ -12,7 +12,7 @@
 \title{Extend pedigree}
 
 \description{\code{extend} finds ascendants, which do not appear as
-  subjects in pedigree and assigns them as subjects with unknown
+  individuals in pedigree and assigns them as individuals with unknown
   ascendants in extended pedigree.
 }
 
@@ -22,7 +22,7 @@
   \item{x}{pedigree object}
   \item{ascendant}{character, column names of ascendant(s), see details}
   \item{col}{character, column name(s) of attribute(s), see details}
-  \item{top}{logical, add ascendants as subjects on the top or
+  \item{top}{logical, add ascendants as individuals on the top or
     bottom of the pedigree}
 }
 
@@ -35,9 +35,9 @@ with other pedigree attributes such as sex, generation, etc. with
 argument \code{col}. Use \code{col=NA}, if none of the pedigree
 attributes should be extended.
 
-Sex of \dQuote{new} subjects is infered from attribute
+Sex of \dQuote{new} individuals is infered from attribute
 \code{ascendantSex} as used in \code{Pedigree} function. Generation of
-\dQuote{new} subjects is infered as minimal
+\dQuote{new} individuals is infered as minimal
 (\code{generationOrder="increasing"}) or maximal
 (\code{generationOrder="decreasing"}) generation value in descendants -
 1. See \code{\link{Pedigree}} on this issue. Family values are extended
@@ -47,7 +47,7 @@ with means of \code{\link{family}}.
 
 \value{
 
-Extended pedigree, where all ascendants also appear as subjects with
+Extended pedigree, where all ascendants also appear as individuals with
 unknown ascendants and infered other attributes such as sex, generation,
 etc. if this attributes are in the pedigree.
 

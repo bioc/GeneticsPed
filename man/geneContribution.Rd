@@ -3,7 +3,7 @@
 % What: Gene contribution or proportion of genes in pedigree by
 %       individual man page
 % $Id: prop.pedigree.Rd 895 2006-06-16 14:28:51Z dnadave $
-% Time-stamp: <2006-09-06 11:05:03 ggorjan>
+% Time-stamp: <2007-04-19 02:37:24 ggorjan>
 %--------------------------------------------------------------------------
 
 \name{geneContribution}
@@ -13,8 +13,8 @@
 \title{Gene contribution or proportion of genes in pedigree by individual}
 
 \description{\code{geneContribution} calculates gene contribution
-  as proportion of genes in pedigree by individual i.e. subjects with
-  higher number of descendants will have higher values.
+  as proportion of genes in pedigree by individual with higher number of
+  descendants will have higher values.
 }
 
 \usage{geneContribution(x, relative=TRUE)}
@@ -28,13 +28,13 @@
 \value{
 
 Gene contribution values i.e. higher the values higher the contribution
-of genes by particular subject in the pedigree. When
+of genes by particular individual in the pedigree. When
 \code{relative=FALSE}, values represent number of individuals (in
 conceptually additive manner i.e. 0.5 + 0.75 = 1.25 individual) in the
-pedigree that carry genes of a particular subject. With
+pedigree that carry genes of a particular individual. With
 \code{relative=TRUE}, values represent the same result as ratios to all
-individuals in the pedigree. Value 0 indicates that subject did not pass
-its genes to next generations.
+individuals in the pedigree. Value 0 indicates that individual did not
+pass its genes to next generations.
 
 }
 

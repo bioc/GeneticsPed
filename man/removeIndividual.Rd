@@ -2,7 +2,7 @@
 %--------------------------------------------------------------------------
 % What: Remove individual from pedigree
 % $Id: removeIndividual.Rd 1092 2006-11-12 12:28:38Z ggorjan $
-% Time-stamp: <2006-09-30 01:34:30 ggorjan>
+% Time-stamp: <2007-04-19 02:36:13 ggorjan>
 %--------------------------------------------------------------------------
 
 \name{removeIndividual}
@@ -30,7 +30,7 @@ pedigree.
 \details{
 
 Individuals passed to argument \code{individual} will be removed from
-the pedigree. If there is a pedigree with subject "id" and two
+the pedigree. If there is a pedigree with individual "id" and two
 ascendants, say "father" and "mother", then one can pass any combination
 of these three id columns or "all" for all of them in short to argument
 \code{remove}. In case only "id" is passed to \code{remove}, individuals
@@ -39,7 +39,7 @@ might be a matter of interest only if specified individuals show up as
 ascendants for some other individuals. In case you want to remove an
 individual completely from the pedigree "all" must be used.
 
-Individuals in subject id column are removed via removal of the whole record
+Individuals in id column are removed via removal of the whole record
 from the pedigree. Individuals in ascendant id columns are only replaced by
 \code{attr(x, "unknown")}.
 

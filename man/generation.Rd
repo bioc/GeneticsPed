@@ -1,8 +1,8 @@
 % generation.Rd
 %--------------------------------------------------------------------------
 % What: Calculate generation value man page
-% $Id: generation.Rd 1092 2006-11-12 12:28:38Z ggorjan $
-% Time-stamp: <2006-09-30 01:38:53 ggorjan>
+% $Id: generation.Rd 1197 2007-04-06 12:03:00Z ggorjan $
+% Time-stamp: <2007-04-19 02:42:07 ggorjan>
 %--------------------------------------------------------------------------
 
 \name{generation}
@@ -15,7 +15,7 @@
 \description{
 
 \code{generation} calculates generation value of individuals in given
-pedigree. \code{generation<-} provides mean to properly add generation
+pedigree. \code{generation<-} provides a way to properly add generation
 information into the pedigree.
 
 }
@@ -31,7 +31,7 @@ generation(x, generationOrder=NULL, col=NULL) <- value
   \item{generationOrder}{character, should be generation values
     "increasing" or "decreasing" through generations, see details}
   \item{col}{character, column name in \code{x} for generation}
-  \item{value}{generation values for subjects in the pedigree}
+  \item{value}{generation values for individuals in the pedigree}
 }
 
 \details{
@@ -41,7 +41,7 @@ default 1, while other individuals get it according to:
 
 \deqn{G_s = max(G_{1a} + G_{2a} + ... G_{na}) + 1}
 
-where G represents generation value for s - subject, a - ascendant
+where G represents generation value for s - individual, a - ascendant
 e.g. father and mother, where n=2. N might be higher if there are
 multiple ascendants i.e. this function can also handle pedigrees with
 higher order ascendants e.g. grandfather.
@@ -51,7 +51,7 @@ higher order ascendants e.g. grandfather.
 \code{NULL}, which is default, then this information is taken from
 the pedigree - see \code{\link{Pedigree}} for more on this issue.
 
-\code{col} provides a mean to name or possibly also rename generation
+\code{col} provides a way to name or possibly also rename generation
 column with user specified value, say "generazione" in Italian. When
 \code{col=NULL}, which is default, "generation" is used.
 

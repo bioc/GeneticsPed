@@ -2,7 +2,7 @@
 %--------------------------------------------------------------------------
 % What: Find families (lines) in the pedigree
 % $Idn$
-% Time-stamp: <2006-07-22 23:32:03 ggorjan>
+% Time-stamp: <2007-04-19 02:37:31 ggorjan>
 %--------------------------------------------------------------------------
 
 \name{family}
@@ -32,7 +32,7 @@ family(x, col=NULL) <- value
 \arguments{
   \item{x}{pedigree object}
   \item{col}{character, column name in \code{x} for family}
-  \item{value}{family values for subjects in the pedigree}
+  \item{value}{family values for individuals in the pedigree}
 }
 
 \details{
