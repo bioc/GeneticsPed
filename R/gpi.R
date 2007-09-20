@@ -2,17 +2,21 @@
 ###------------------------------------------------------------------------
 ### What: Genotype probability index
 ### $Id: gpi.R 1155 2007-03-02 22:52:41Z ggorjan $
-### Time-stamp: <2007-03-02 23:28:12 ggorjan>
+### Time-stamp: <2007-09-13 03:30:48 ggorjan>
 ###------------------------------------------------------------------------
+
+### {{{ gpi
 
 gpi <- function(gp, hwp)
 {
   ## --- Tests ---
 
-  if(!is.numeric(gp) | !is.numeric(hwp))
-    stop("'gp' and 'hwp' must be numeric vectors or matrices")
-  if(any(gp < 0 | gp > 1) | any(hwp < 0 | hwp > 1))
+  if(!is.numeric(gp) || !is.numeric(hwp))
+    stop("'gp' and 'hwp' must be numeric vector or matrix")
+  if(any(gp < 0 | gp > 1) || any(hwp < 0 | hwp > 1))
     stop("probabilities should lie on interval 0, 1")
+  if(any(is.na(gp)) || any(is.na(hwp)))
+    stop("NA values are not allowed in 'gp' and 'hwp'")
 
   ## --- Setup ---
 
@@ -59,20 +63,98 @@ gpi <- function(gp, hwp)
                   ## Number of alleles
                   n=as.integer(n),
                   ## Individual's genotype probabilities
-                  gp=as.double(t(gp)),
+                  gp=as.double(gp),
                   ## Hardy-Weinberg genotype probabilities
-                  hwp=as.double(t(hwp)),
+                  hwp=as.double(hwp),
                   ret=ret, PACKAGE="GeneticsPed")[["ret"]]
-
-  ## Transpose i.e. t(gp) and t(hwp) is used due to Fortran column
-  ## order. This matters on in case matrices are used.
 
   ## --- Return ---
 
   ret
 }
 
+### }}}
+### {{{ gpLong2Wide
 
+gpLong2Wide <- function(x, id, genotype, prob, trim=TRUE)
+{
+  ## --- Check inputs ---
+
+  if(!is.data.frame(x)) stop("'x' must be a data.frame")
+  if(!all(sapply(list(id, genotype, prob), is.character)))
+    stop("'id', 'genotype', and 'prob' must be character")
+  if(!all(c(id, genotype, prob) %in% names(x)))
+    stop("'id', 'genotype', and 'prob' must be column names of 'x'")
+  if(!("genotype" %in% class(x[, genotype])))
+    stop("'x' must be of a genotype class")
+
+  ## --- Setup ---
+
+  idVal <- unique(x[, id])
+  nId <- length(idVal)
+  gen <- expectedGenotypes(allele=allele.names(x[, genotype]))
+  nGen <- length(gen)
+  gp <- matrix(data=0, nrow=nId, ncol=nGen)
+  colnames(gp) <- gen
+  rownames(gp) <- idVal
+
+  ## --- Fill the matrix ---
+
+  for(i in seq(along=gen)) {
+    test <- x[, genotype] == gen[i]
+    idVal <- as.character(x[test, id])
+    gp[idVal, gen[i]] <- x[test, prob]
+  }
+
+  ## --- Return ---
+
+  if(trim) {
+    gp[, 1:(ncol(gp) - 1)]
+  } else {
+    gp
+  }
+}
+
+### }}}
+### {{{ hwp
+
+hwp <- function(x, trim=TRUE)
+{
+  ## --- Check inputs ---
+
+  if(!("genotype" %in% class(x)))
+    stop("'x' must be of a genotype class")
+
+  ## --- Calculate HWE probabilities ---
+
+  ## Pr(AA) = Pr(A) * Pr(A)
+  ## Pr(AB) = 2 * Pr(A) * Pr(B)
+  ## ...
+
+  tmp <- summary(x)$allele.freq
+  tmp <- tmp[!is.na(tmp[, 2]), 2]
+  hwp <- outer(X=tmp, Y=tmp, FUN="*")
+
+  ## Keep only lower triangle with Pr(AA), Pr(AB), and Pr(BB);
+  ## i.e. skip Pr(BA)
+  lowerTriangle(hwp) <- 2 * lowerTriangle(hwp)
+  hwp <- hwp[lower.tri(hwp, diag=TRUE)]
+
+  ## --- Return ---
+
+  if(trim) {
+    hwp[1:(length(hwp) - 1)]
+  } else {
+    hwp
+  }
+}
+
+### }}}
+### {{{ Dear Emacs
+## Local variables:
+## folded-file: t
+## End:
+### }}}
 
 ###------------------------------------------------------------------------
 ### gpi.R ends here

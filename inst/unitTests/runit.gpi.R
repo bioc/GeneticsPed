@@ -2,7 +2,7 @@
 ###------------------------------------------------------------------------
 ### What: Unit tests for gpi() method
 ### $Id: runit.gpi.R 1153 2007-03-02 17:12:03Z ggorjan $
-### Time-stamp: <2007-03-02 18:08:02 ggorjan>
+### Time-stamp: <2007-09-13 03:34:20 ggorjan>
 ###------------------------------------------------------------------------
 
 ### {{{ --- Test setup ---
@@ -71,6 +71,55 @@ test.gpi <- function()
 
   checkException(gpi(gp=c(.1, .5, .2, .0), hwp=c(.1, .6, .1, .1)))
   ## wrong number of genotype probabilities
+}
+
+### }}}
+### {{{ --- gpLong2Wide ---
+
+test.gpLong2Wide <- function()
+{
+  tmp <- data.frame(ind=c("A", "A", "A", "B", "B"),
+                    gen=c("A/A", "A/B", "B/B", "A/A", "A/B"),
+                    pro=c(0.5, 0.25, 0.25, 0.75, 0.25))
+
+  checkException(gpLong2Wide(x=1))
+  ## 'x' must be a data.frame
+  checkException(gpLong2Wide(x=tmp, id=2, genotype="gen", prob="pro"))
+  ## 'id', 'genotype', and 'prob' must be character
+  checkException(gpLong2Wide(x=tmp, id="id", genotype="gen", prob="pro"))
+  ## 'id', 'genotype', and 'prob' must be column names of 'x'
+  checkException(gpLong2Wide(x=tmp, id="ind", genotype="gen", prob="pro"))
+  ## 'x' must be of a genotype class
+
+  if(require(genetics)) {
+    tmp$gen <- as.genotype(tmp$gen)
+    tmp2 <- gpLong2Wide(x=tmp, id="ind", genotype="gen", prob="pro")
+    checkEquals(as.vector(tmp2), c(0.5, 0.75, 0.25, 0.25))
+    tmp2 <- gpLong2Wide(x=tmp, id="ind", genotype="gen", prob="pro", trim=FALSE)
+    checkEquals(as.vector(tmp2), c(0.5, 0.75, 0.25, 0.25, 0.25, 0))
+  }
+
+}
+
+### }}}
+### {{{ --- hwp ---
+
+test.hwp <- function()
+{
+  checkException(hwp(x="A/A"))
+  ## 'x' must be of a genotype class
+
+  if(require(genetics)) {
+    gen <- genotype(c("A/A", "A/B"))
+    ## Pr(A)  = 3/4
+    ## Pr(B)  = 1/4
+    ## Pr(AA) = (3/4)^2           = 0.5625
+    ## Pr(AA) = 2 * (3/4) * (1/4) = 0.3750
+    ## Pr(BB) = (1/4)^2           = 0.0625
+    ret <- c(0.5625, 0.3750, 0.0625)
+    checkEquals(hwp(x=gen), ret[1:2])
+    checkEquals(hwp(x=gen, trim=FALSE), ret)
+  }
 }
 
 ### }}}

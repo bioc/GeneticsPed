@@ -2,7 +2,7 @@
 !-----------------------------------------------------------------------
 !     What:  Genotype Probability Index (GPI) calculation
 !     $Id: gpi.f 1153 2007-03-02 17:12:03Z ggorjan $
-!     Time-stamp: <2007-03-02 18:02:17 ggorjan>
+!     Time-stamp: <2007-09-12 23:37:38 ggorjan>
 !     Subroutines: gpi, gpiCore
 !-----------------------------------------------------------------------
 !
@@ -17,9 +17,9 @@
 !
 !      n    integer(1), number of alleles
 !
-!      gp   double precision(k, nobs), individual genotype probabilities
+!      gp   double precision(nobs, k), individual genotype probabilities
 !
-!      hwp  double precision(k, nobs), Hardy-Weinberg genotype probabilities
+!      hwp  double precision(nobs, k), Hardy-Weinberg genotype probabilities
 !
 !     Return:
 !
@@ -35,7 +35,7 @@
       subroutine gpi(nobs, n, gp, hwp, ret)
         implicit none
         integer nobs, n, k, i, j
-        double precision gp(n*(n+1)/2-1, nobs), hwp(n*(n+1)/2-1, nobs)
+        double precision gp(nobs, n*(n+1)/2-1), hwp(nobs, n*(n+1)/2-1)
         double precision ret(nobs), gp2(n*(n+1)/2-1), hwp2(n*(n+1)/2-1)
 
         k=n*(n+1)/2-1
@@ -44,8 +44,8 @@
         do i = 1, nobs
 !         Get gp2 and hwp2 for each individual
           do j = 1, k
-            gp2(j) = gp(j, i)
-            hwp2(j) = hwp(j, i)
+            gp2(j) = gp(i, j)
+            hwp2(j) = hwp(i, j)
           end do
           call gpiCore(n, k, gp2, hwp2, ret(i))
         end do
@@ -64,7 +64,7 @@
 !     http://dx.doi.org/10.1111/j.1439-0388.2005.00553.x
 !
 !     Gregor Gorjanc modified code by Percy and Kinghorn to FORTRAN 77
-!     for maximal portability with R and added documentation.
+!     (for maximal portability with R) and added documentation.
 !
 !     Input:
 !
