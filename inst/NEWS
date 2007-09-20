@@ -1,0 +1,131 @@
+# NEWS
+#--------------------------------------------------------------------------
+# What: What are the news for GeneticsPed?
+# Time-stamp: <2007-09-20 00:49:16 ggorjan>
+#--------------------------------------------------------------------------
+
+# 1.1.0
+#--------------------------------------------------------------------------
+
+2007-09-12 Gregor Gorjanc
+
+    o Added prune function for pruning/trimming the pedigree. It does not
+      work on pedigree, but assumes a data.frame with defined structure.
+      Adaption needed.
+
+    o We suggest genetics package since gpLong2Wide and hwp assume that
+      input is of genotype class.
+
+    o Added two utility functions (gpLong2Wide and hwp) for work with
+      gpi(). There is also a separate help page for them.
+
+    o Internal fixes in gpi
+      - no need to transpose inputs for Fortran call anymore
+      - check that there are no NA values in gp and hwp
+
+2007-04-25 Gregor Gorjanc
+
+    o Version bump to follow BioC releases.
+
+# 0.1.4
+#--------------------------------------------------------------------------
+
+2007-04-19 Gregor Gorjanc
+
+    o Added internal .get* functions for retrieving slot values and use of
+      it.
+
+2007-04-18 Gregor Gorjanc
+
+    o R CMD check should now fail also when R error (usually call to
+      stop()) occurs in unit testing.
+
+    o Added unit tests for sort, examples in help page and clarified sort
+      help page.
+
+2007-04-?? Dave Henderson
+
+    o Implemented sort by pedigree information only.
+
+# 0.1.3
+#--------------------------------------------------------------------------
+
+2007-04-06 Gregor Gorjanc
+
+  o New small dataset Falconer5.1.
+
+  o Added sex(), sex<-(), ascendantSex() and ascendantSex<-()
+    functions.
+
+  o Added some more tests for relationshipAdditive, inverseAdditive and
+    inbreeding.
+
+# 0.1.2
+#--------------------------------------------------------------------------
+
+2007-04-01 Gregor Gorjanc
+
+    o Now we are more rigorous for value of ascendantSex argument in
+      Pedigree(). It must accord to values in sex column, if that one is
+      passed of course.
+
+    o MASS added to depends due to use of fractions() in many places in
+      documnetation.
+
+    o Added vignette on quantitative genetic (animal) model and
+      model.matrix.Pedigree() functions for educational
+      purposes.
+
+    o Created data directory and added pedigree example Mrode2.1 and
+      Mrode3.1.
+
+    o Added unit tests for genetic relationship matrices that should test
+      all related functions - mainly against Mrode's book examples -
+      runit.genRelMatrix.R.
+
+    o Added arguments sort and names to inverseAdditive(),
+      relationshipAdditive() and inbreeding().
+
+    o Reworked core for relationshipAdditive() into vectorized form.
+
+    o Added geneFlowT(), geneFlowTinv(), geneFlowM() and mendelianSamplingD()
+      functions.
+
+2007-03-02 Gregor Gorjanc
+
+    o Registration of native routines - src/register.cc.
+
+    o Added gpi() function.
+
+# 0.1.1
+#--------------------------------------------------------------------------
+
+    o Temporarily removed unknown funcs, due to planned move to BioC and
+      change to S4.
+
+    o All depends are now in gdata --> removing ggmisc.
+
+2006-03-29 Gregor Gorjanc
+
+    o codeUnit to get internal codes for subject and ascendants if factors
+      are used.
+
+    o Handled unused levels in nlevels.pedigree and summary.pedigree now
+      produces a simple summary
+
+    o Started to implement checks in check.pedigree and friends
+
+    o Proper factor handling
+
+2006-03-16 Gregor Gorjanc
+
+    o Playing around with NA/unknown representation - it is very likely
+      that I messed up some things with factors --> subject to changes.
+
+# Version 0.1
+#--------------------------------------------------------------------------
+
+    o Initial version
+
+#--------------------------------------------------------------------------
+# NEWS ends here
