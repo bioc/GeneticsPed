@@ -2,10 +2,13 @@
 ###------------------------------------------------------------------------
 ### What: Build pedigree for given individual(s)
 ### $Id: buildPedigree.R 1092 2006-11-12 12:28:38Z ggorjan $
-### Time-stamp: <2006-09-26 20:34:44 ggorjan>
+### Time-stamp: <2007-09-06 23:35:06 ggorjan>
 ###------------------------------------------------------------------------
 
 if(FALSE) {
+
+## FIXME: .getAscendant is already taken for slot retrievel, perhaps
+##        findAscendant or simpler ascendant
 
 buildPedigree <- function(x, id)
 {
