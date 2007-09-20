@@ -26,6 +26,7 @@ export(
        geneContribution,
        isFounder,
        nIndividual,
+       prune,
        removeIndividual,
        summary.Pedigree,
 
@@ -40,7 +41,7 @@ export(
        relationshipAdditive,
 
        ## Other utilities
-       gpi
+       gpi, gpLong2Wide, hwp
        )
 
 S3method(as.Pedigree, data.frame)
