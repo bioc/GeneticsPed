@@ -2,7 +2,7 @@
 ###------------------------------------------------------------------------
 ### What: Genotype probability index
 ### $Id: gpi.R 1155 2007-03-02 22:52:41Z ggorjan $
-### Time-stamp: <2007-09-13 03:30:48 ggorjan>
+### Time-stamp: <2007-09-20 13:43:28 ggorjan>
 ###------------------------------------------------------------------------
 
 ### {{{ gpi
@@ -85,7 +85,7 @@ gpLong2Wide <- function(x, id, genotype, prob, trim=TRUE)
     stop("'id', 'genotype', and 'prob' must be character")
   if(!all(c(id, genotype, prob) %in% names(x)))
     stop("'id', 'genotype', and 'prob' must be column names of 'x'")
-  if(!("genotype" %in% class(x[, genotype])))
+  if(!(is.genotype(x[, genotype])))
     stop("'x' must be of a genotype class")
 
   ## --- Setup ---
@@ -122,7 +122,7 @@ hwp <- function(x, trim=TRUE)
 {
   ## --- Check inputs ---
 
-  if(!("genotype" %in% class(x)))
+  if(!(is.genotype(x)))
     stop("'x' must be of a genotype class")
 
   ## --- Calculate HWE probabilities ---
