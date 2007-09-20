@@ -10,7 +10,7 @@
 
 %\VignetteIndexEntry{Pedigree handling}
 %\VignettePackage{GeneticsPed}
-%\VignetteDepends{GeneticsPed, gdata}
+%\VignetteDepends{gdata}
 %\VignetteKeywords{genetics, pedigree, parents, children, progeny, ancestor, ascendant, descendant, generation, sex, birth date, family}
 
 % --- Preamble ---

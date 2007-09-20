@@ -10,7 +10,7 @@
 
 %\VignetteIndexEntry{Quantitative genetic (animal) model example in R}
 %\VignettePackage{GeneticsPed}
-%\VignetteDepends{GeneticsPed, gdata}
+%\VignetteDepends{gdata}
 %\VignetteKeywords{phenotype data, pedigree, quantitative genetics, animal model, BLUP, breeding values}
 
 % --- Preamble ---

@@ -11,7 +11,7 @@
 
 %\VignetteIndexEntry{Calculation of genetic relatedness/relationship between individuals in the pedigree}
 %\VignettePackage{GeneticsPed}
-%\VignetteDepends{GeneticsPed, gdata}
+%\VignetteDepends{gdata}
 %\VignetteKeywords{genetics, relatedness, relationship, kinship, inbreeding, additive, dominance, epistatic}
 
 % --- Preamble ---
