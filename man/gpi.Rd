@@ -2,7 +2,7 @@
 %--------------------------------------------------------------------------
 % What: Genotype probability index
 % $Id: gpi.Rd 1175 2007-04-03 14:09:20Z ggorjan $
-% Time-stamp: <2007-03-31 19:12:05 ggorjan>
+% Time-stamp: <2007-09-13 03:18:45 ggorjan>
 %--------------------------------------------------------------------------
 
 \name{gpi}
@@ -48,7 +48,9 @@ multi-allele loci. If there are two alleles (1 and 2), you should pass
 vector of probabilities for genotypes (11 and 12) i.e. one value for
 heterozygotes (12 and 21) and always skipping last homozygote. With
 three alleles this vector should hold probabilities for genotypes (11,
-12, 13, 22, 23) as also shown bellow and in examples.
+12, 13, 22, 23) as also shown bellow and in examples. \code{\link{hwp}}
+and \code{\link{gpLong2Wide}} functions can be used to ease the setup
+for \code{gp} and \code{hwp} arguments.
 
 \preformatted{
      2 alleles: 1 and 2
@@ -123,20 +125,24 @@ pedigrees. \emph{Journal of Animal Science}
 \author{Gregor Gorjanc R code, documentation, wrapping into a package;
   Andrew Percy and Brian P. Kinghorn Fortran code}
 
-\seealso{\code{\link{Pedigree}}}
+\seealso{
+  \code{\link{hwp}} and
+  \code{\link{gpLong2Wide}}
+}
 
 \examples{
   ## --- Example 1 from Percy and Kinghorn (2005) ---
   ## No. alleles: 2
   ## No. individuals: 1
   ## Individual genotype probabilities:
-  ##  * p(11, 12, 22) = (.1, .5, .4)
+  ##   Pr(11, 12, 22) = (.1, .5, .4)
+  ##
   ## Hardy-Weinberg probabilities:
-  ##  *   p(1, 2) = (.75, .25)
-  ##  * p(11, 12,   (.75^2, 2*.75*.25,
-  ##          22) =             .25^2)
-  ##              = (.5625, .3750,
-  ##                        .0625)
+  ##   Pr(1, 2)   = (.75, .25)
+  ##   Pr(11, 12,   (.75^2, 2*.75*.25,
+  ##           22) =             .25^2)
+  ##               = (.5625, .3750,
+  ##                         .0625)
 
   gp <- c(.1, .5)
   hwp <- c(.5625, .3750)
@@ -146,8 +152,8 @@ pedigrees. \emph{Journal of Animal Science}
   ## No. alleles: 2
   ## No. individuals: 2
   ## Individual genotype probabilities:
-  ##  * p_1(11, 12, 22) = (.1, .5, .4)
-  ##  * p_2(11, 12, 22) = (.2, .5, .3)
+  ##   Pr_1(11, 12, 22) = (.1, .5, .4)
+  ##   Pr_2(11, 12, 22) = (.2, .5, .3)
 
   (gp <- matrix(c(.1, .5, .2, .5), nrow=2, ncol=2, byrow=TRUE))
   gpi(gp=gp, hwp=hwp)
@@ -156,12 +162,13 @@ pedigrees. \emph{Journal of Animal Science}
   ## No. alleles: 3
   ## No. individuals: 1
   ## Individual genotype probabilities:
-  ##  * p(11, 12, 13,   (.1, .5, .0,
+  ##   Pr(11, 12, 13,   (.1, .5, .0,
   ##          22, 23  =      .4, .0,
   ##              33)            .0)
+  ##
   ## Hardy-Weinberg probabilities:
-  ##  *    p(1, 2, 3) = (.75, .25, .0)
-  ##  * p(11, 12, 13,   (.75^2, 2*.75*.25, .0,
+  ##   Pr(1, 2, 3)    = (.75, .25, .0)
+  ##   Pr(11, 12, 13,   (.75^2, 2*.75*.25, .0,
   ##          22, 23, =            0.25^2, .0,
   ##              33)                      .0)
   ##                  = (.5625, .3750, .0
@@ -176,11 +183,12 @@ pedigrees. \emph{Journal of Animal Science}
   ## No. alleles: 5
   ## No. individuals: 1
   ## Hardy-Weinberg probabilities:
-  ##  * p(1, 2, 3, 4, 5) = (.2, .2, .2, .2, .2)
-  ##  * p(11, 12, 13, ...) = (p(1)^2, 2p(1)p(2), 2p(1)p(3), ...)
+  ##   Pr(1, 2, 3, 4, 5)   = (.2, .2, .2, .2, .2)
+  ##   Pr(11, 12, 13, ...) = (Pr(1)^2, 2*Pr(1)+Pr(2), 2*Pr(1)*Pr(3), ...)
+  ##
   ## Individual genotype probabilities:
-  ##  * p(11, 12, 13, ...) = gp / 2
-  ##    p(12) = p(12) + .5
+  ##   Pr(11, 12, 13, ...) = gp / 2
+  ##   Pr(12) = Pr(12) + .5
 
   (hwp <- rep(.2, times=5) \%*\% t(rep(.2, times=5)))
   hwp <- c(hwp[upper.tri(hwp, diag=TRUE)])
@@ -191,7 +199,7 @@ pedigrees. \emph{Journal of Animal Science}
 
   gpi(gp=gp, hwp=hwp)
 
-  ## --- Simulate gp for n alleles and i subjects ---
+  ## --- Simulate gp for n alleles and i individuals ---
   n <- 3
   i <- 10
 
