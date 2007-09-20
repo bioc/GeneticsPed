@@ -2,7 +2,7 @@
 ###------------------------------------------------------------------------
 ### What: Pedigree class and methods
 ### $Id: pedigree.R 1165 2007-04-03 14:00:07Z ggorjan $
-### Time-stamp: <2007-04-01 22:50:13 ggorjan>
+### Time-stamp: <2007-09-20 13:18:57 ggorjan>
 ###------------------------------------------------------------------------
 
 ### {{{ Pedigree
@@ -24,6 +24,7 @@
 
 ### }}}
 ### {{{ S3
+
 ###------------------------------------------------------------------------
 
 Pedigree <- function(x, subject="id", ascendant=c("father", "mother"),
@@ -75,7 +76,7 @@ Pedigree <- function(x, subject="id", ascendant=c("father", "mother"),
     stop("'ascendant', 'ascendantSex' and 'ascendantLevel' must have the same length")
   }
 
-  GeneticsPed:::idClass(x)
+  idClass(x)
   ## all id must have the same class: not needed when check
   ## action will be working FIXME
 
@@ -103,7 +104,8 @@ Pedigree <- function(x, subject="id", ascendant=c("father", "mother"),
     x <- dropLevels(x)
 
   if(codes) # Code Pedigree
-    x <- as.integer.Pedigree(x)
+    stop("not available")
+    ## x <- as.integer.Pedigree(x)
 
   ## --- Return ---
   x
@@ -137,6 +139,8 @@ as.Pedigree.matrix <- function (x, ...)
     stop("matrix 'x' needs column names to proceed")
   Pedigree(as.data.frame(x), ...)
 }
+
+if(FALSE) {
 
 as.integer.Pedigree <- function(x, sort=FALSE, mapCha=FALSE, mapInt=FALSE, ...)
 {
@@ -186,6 +190,8 @@ as.character.Pedigree <- function(x, ...)
   x[, col] <- lapply(x[, col], as.character)
   attr(x, ".colClass") <- "character"
   x
+}
+
 }
 
 ### }}}
