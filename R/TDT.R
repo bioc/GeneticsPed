@@ -1,36 +1,36 @@
 ### TDT.R
 ###------------------------------------------------------------------------
 ### What: Gene and gamete flow and mendelian sampling covariance matrices
-### $Id: TDT.R 1168 2007-04-03 14:03:43Z ggorjan $
-### Time-stamp: <2007-03-31 21:40:30 ggorjan>
+### $Id: TDT.R 1193 2007-04-06 11:35:47Z ggorjan $
+### Time-stamp: <2007-09-07 00:49:04 ggorjan>
 ###------------------------------------------------------------------------
 
 ### {{{ Gene flow matrix - T
+
 ###------------------------------------------------------------------------
 
 geneFlowT <- function(x, sort=TRUE, names=TRUE, ...)
 {
   ## --- Setup ---
 
-  subject <- attr(x, ".subject")
-  ascendant <- attr(x, ".ascendant")
+  ascendant <- getAscendantName(x)
   if(length(ascendant) > 2)
     stop("no method for pedigree with more than two ascendants")
-  if(sort) idOrig <- as.character(x[[subject]])  # for sort-back
+  if(sort) idOrig <- as.character(getId(x))  # for sort-back
 
-  ## Pedigree must be sorted and extended
-  ## x <- GeneticsPed:::checkAttributes(x, sorted=TRUE, extended=TRUE)
+  ## Pedigree must be extended and sorted
+  x <- GeneticsPed:::checkAttributes(x, extended=TRUE, sorted=TRUE)
 
   n <- nrow(x)
   ret <- matrix(0, n, n)         # n*n matrix
   diag(ret) <- 1                 # diagonal = 1
-  rownames(ret) <- colnames(ret) <- x[[subject]]
+  rownames(ret) <- colnames(ret) <- getId(x)
 
-  asc1 <- as.character(x[[ascendant[1]]])
-  asc2 <- as.character(x[[ascendant[2]]])
-  testAsc1 <- !isUnknown(x[[ascendant[1]]])
-  testAsc2 <- !isUnknown(x[[ascendant[2]]])
-  ## subjects with at least one ascendant known
+  asc1 <- as.character(getFather(x))
+  asc2 <- as.character(getMother(x))
+  testAsc1 <- !isUnknown(asc1)
+  testAsc2 <- !isUnknown(asc2)
+  ## individuals with at least one ascendant known
   set <- which(!(!testAsc1 & !testAsc2))
 
   ## --- Core ---
@@ -62,30 +62,30 @@ geneFlowTinv <- function(x, sort=TRUE, names=TRUE, ...)
 
 ### }}}
 ### {{{ Gamete flow matrix - M
+
 ###------------------------------------------------------------------------
 
 gameteFlowM <- function(x, sort=TRUE, names=TRUE, ...)
 {
   ## --- Setup ---
 
-  subject <- attr(x, ".subject")
-  ascendant <- attr(x, ".ascendant")
+  ascendant <- getAscendantName(x)
   if(length(ascendant) > 2)
     stop("no method for pedigree with more than two ascendants")
-  if(sort) idOrig <- as.character(x[[subject]])  # for sort-back
+  if(sort) idOrig <- as.character(getId(x))  # for sort-back
 
-  ## Pedigree must be sorted and extended FIXME
-  ## x <- GeneticsPed:::checkAttributes(x, sorted=TRUE, extended=TRUE)
+  ## Pedigree must be extended and sorted FIXME?
+  x <- GeneticsPed:::checkAttributes(x, extended=TRUE, sorted=TRUE)
 
   n <- nrow(x)
   ret <- matrix(0, n, n)         # n*n matrix
-  rownames(ret) <- colnames(ret) <- x[[subject]]
+  rownames(ret) <- colnames(ret) <- getId(x)
 
-  asc1 <- as.character(x[[ascendant[1]]])
-  asc2 <- as.character(x[[ascendant[2]]])
-  testAsc1 <- !isUnknown(x[[ascendant[1]]])
-  testAsc2 <- !isUnknown(x[[ascendant[2]]])
-  ## subjects with at least one ascendant known
+  asc1 <- as.character(getFather(x))
+  asc2 <- as.character(getMother(x))
+  testAsc1 <- !isUnknown(asc1)
+  testAsc2 <- !isUnknown(asc2)
+  ## individuals with at least one ascendant known
   set <- which(!(!testAsc1 & !testAsc2))
 
   ## --- Core ---
@@ -104,14 +104,14 @@ gameteFlowM <- function(x, sort=TRUE, names=TRUE, ...)
 
 ### }}}
 ### {{{ Mendelian sampling covariance matrix - D
+
 ###------------------------------------------------------------------------
 
 mendelianSamplingD <- function(x, matrix=TRUE, names=TRUE, ...)
 {
   ## --- Setup ---
 
-  subject <- attr(x, ".subject")
-  ascendant <- attr(x, ".ascendant")
+  ascendant <- getAscendantName(x)
   if(length(ascendant) > 2)
     stop("no method for pedigree with more than two ascendants")
 
@@ -119,11 +119,11 @@ mendelianSamplingD <- function(x, matrix=TRUE, names=TRUE, ...)
   ret <- vector(mode="numeric", length=n)    # n vector ~ diagonal matrix
   ret[] <- 1                                 # has maximally 1 (unknown parents)
 
-  sub <- as.character(x[[subject]])
-  asc1 <- as.character(x[[ascendant[1]]])
-  asc2 <- as.character(x[[ascendant[2]]])
-  testAsc1 <- !isUnknown(x[[ascendant[1]]])
-  testAsc2 <- !isUnknown(x[[ascendant[2]]])
+  sub <- as.character(getId(x))
+  asc1 <- as.character(getFather(x))
+  asc2 <- as.character(getMother(x))
+  testAsc1 <- !isUnknown(asc1)
+  testAsc2 <- !isUnknown(asc2)
 
   ## --- Core ---
 

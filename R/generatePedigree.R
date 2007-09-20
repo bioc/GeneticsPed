@@ -2,11 +2,11 @@
 ###------------------------------------------------------------------------
 ### What: Generate Pedigree example
 ### $Id: generatePedigree.R 1096 2006-11-14 06:08:39Z ggorjan $
-### Time-stamp: <2006-11-14 06:51:14 ggorjan>
+### Time-stamp: <2007-04-17 13:45:02 ggorjan>
 ###------------------------------------------------------------------------
 
-## TODO: check for VB note in slides
-## TODO: implement option for multiple parents
+## TODO: check for VB? note in slides
+## TODO: implement option for multiple parents (fathers)
 
 generatePedigree <- function(nId, nGeneration=3, nFather=round(nId/3),
                              nMother=nId-nFather, start=1,
@@ -55,8 +55,8 @@ generatePedigree <- function(nId, nGeneration=3, nFather=round(nId/3),
     x$generation <- abs(x$generation - max(x$generation)) + start
   x <- as.Pedigree(x=x, unknown=0, sex="sex", generation="generation",
                    generationOrder=generationOrder)
-  attr(x, ".sorted") <- TRUE
   attr(x, ".extended") <- TRUE
+  attr(x, ".sorted") <- TRUE
   if(colClass == "integer") {
     attr(x, ".coded") <- TRUE
   } else {
