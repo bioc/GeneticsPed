@@ -1,8 +1,8 @@
-### getSlots.R
+### getSlot.R
 ###------------------------------------------------------------------------
 ### What: Retrieve slot values from the pedigree
 ### $Id$
-### Time-stamp: <2007-09-07 09:30:07 ggorjan>
+### Time-stamp: <2007-09-20 12:44:37 ggorjan>
 ###------------------------------------------------------------------------
 
 getIdName          <- function(x) attr(x, ".subject") ## FIXME: change to id
@@ -40,4 +40,4 @@ getCoded           <- function(x) attr(x, ".coded")
 getUnknown         <- function(x) attr(x, ".unknown")
 
 ###------------------------------------------------------------------------
-### getSlots.R ends here
+### getSlot.R ends here
