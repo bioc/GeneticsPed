@@ -3,6 +3,7 @@ useDynLib(GeneticsPed, .registration=TRUE, .fixes="R_")
 
 ## Depends:
 ## - gdata: mapLevels, isUnknown, unknownToNA, NAToUnknown
+## - genetics: is.genotype, expectedGenotypes
 
 ## importFrom(gdata, isUnknown, unknownToNA, NAToUnknown)
 
@@ -17,7 +18,6 @@ export(
        generatePedigree,
        check,
        checkId,
-       codeUnit,
        extend,
        family,
        "family<-",
@@ -48,9 +48,9 @@ S3method(as.Pedigree, data.frame)
 S3method(as.Pedigree, matrix)
 S3method(as.Pedigree, Pedigree)
 
-S3method(as.integer, Pedigree)
-S3method(as.character, Pedigree)
-S3method(as.factor, Pedigree)
+## S3method(as.integer, Pedigree)
+## S3method(as.character, Pedigree)
+## S3method(as.factor, Pedigree)
 
 S3method(check, Pedigree)
 

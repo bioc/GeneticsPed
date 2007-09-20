@@ -13,7 +13,7 @@
       work on pedigree, but assumes a data.frame with defined structure.
       Adaption needed.
 
-    o We suggest genetics package since gpLong2Wide and hwp assume that
+    o We depend on genetics package since gpLong2Wide and hwp assume that
       input is of genotype class.
 
     o Added two utility functions (gpLong2Wide and hwp) for work with
