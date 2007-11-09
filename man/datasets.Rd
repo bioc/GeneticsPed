@@ -78,16 +78,16 @@ values. 2nd edition. CAB International. ISBN 0-85199-000-2
 
 \examples{
   data(Falconer5.1)
-  Pedigree(x=Falconer5.1, id="sub", ascendant=c("fat", "mot"))
+  Pedigree(x=Falconer5.1, subject="sub", ascendant=c("fat", "mot"))
 
   data(Mrode2.1)
   Mrode2.1$dtB <- as.Date(Mrode2.1$dtB)
-  Pedigree(x=Mrode2.1, id="sub", ascendant=c("fat", "mot"),
+  Pedigree(x=Mrode2.1, subject="sub", ascendant=c("fat", "mot"),
            ascendantSex=c("M", "F"), family="fam", sex="sex",
            generation="gen", dtBirth="dtB")
 
   data(Mrode3.1)
-  Pedigree(x=Mrode3.1, id="calf", ascendant=c("sire", "dam"),
+  Pedigree(x=Mrode3.1, subject="calf", ascendant=c("sire", "dam"),
            ascendantSex=c("Male", "Female"), sex="sex")
 
 }
