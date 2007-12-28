@@ -67,57 +67,57 @@ test.F <- function()
 ### }}}
 ### {{{ --- Gene and gamete flow matrix (T, Tinv, M) ---
 
-test.T <- function()
-{
-  ## Test with result on page 28 of Mrode (2005)
-  test <- matrix(c(1,    0,     0,    0,    0,   0,
-                   0,    1,     0,    0,    0,   0,
-                   0.5,  0.5,   1,    0,    0,   0,
-                   0.5,  0,     0,    1,    0,   0,
-                   0.5,  0.25,  0.5,  0.5,  1,   0,
-                   0.25, 0.625, 0.25, 0.25, 0.5, 1),
-                 nrow=n2.1, ncol=n2.1, byrow=TRUE)
-  checkIdentical(geneFlowT(x2.1, names=FALSE), test)
-}
-
-test.Tinv <- function()
-{
-  ## Test with result on page 28 of Mrode (2005)
-  test <- matrix(c(1,     0,    0,    0,    0,   0,
-                   0,     1,    0,    0,    0,   0,
-                   -0.5, -0.5,  1,    0,    0,   0,
-                   -0.5,  0,    0,    1,    0,   0,
-                   0,     0,   -0.5, -0.5,  1,   0,
-                   0,    -0.5,  0,    0,   -0.5, 1),
-                 nrow=n2.1, ncol=n2.1, byrow=TRUE)
-  checkIdentical(geneFlowTinv(x2.1, names=FALSE), test)
-}
-
-test.M <- function()
-{
-  ## Test with result on page 29 of Mrode (2005)
-  test <- matrix(c(0,   0,   0,   0,   0,   0,
-                   0,   0,   0,   0,   0,   0,
-                   0.5, 0.5, 0,   0,   0,   0,
-                   0.5, 0,   0,   0,   0,   0,
-                   0,   0,   0.5, 0.5, 0,   0,
-                   0,   0.5, 0,   0,   0.5, 0),
-                 nrow=n2.1, ncol=n2.1, byrow=TRUE)
-  checkIdentical(gameteFlowM(x2.1, names=FALSE), test)
-}
-
-### }}}
-### {{{ --- Mendelian sampling covariance matrix (D) ---
-
-test.D <- function()
-{
-  ## Test with result on page 28 of Mrode (2005)
-  test <- c(1, 1, 0.5, 0.75, 0.5, 0.46875)
-  test1 <- matrix(0, nrow=n2.1, ncol=n2.1)
-  diag(test1) <- test
-  checkIdentical(mendelianSamplingD(x2.1, matrix=FALSE, names=FALSE), test)
-  checkIdentical(mendelianSamplingD(x2.1, names=FALSE), test1)
-}
+#test.T <- function()
+#{
+#  ## Test with result on page 28 of Mrode (2005)
+#  test <- matrix(c(1,    0,     0,    0,    0,   0,
+#                   0,    1,     0,    0,    0,   0,
+#                   0.5,  0.5,   1,    0,    0,   0,
+#                   0.5,  0,     0,    1,    0,   0,
+#                   0.5,  0.25,  0.5,  0.5,  1,   0,
+#                   0.25, 0.625, 0.25, 0.25, 0.5, 1),
+#                 nrow=n2.1, ncol=n2.1, byrow=TRUE)
+#  checkIdentical(geneFlowT(x2.1, names=FALSE), test)
+#}
+#
+#test.Tinv <- function()
+#{
+#  ## Test with result on page 28 of Mrode (2005)
+#  test <- matrix(c(1,     0,    0,    0,    0,   0,
+#                   0,     1,    0,    0,    0,   0,
+#                   -0.5, -0.5,  1,    0,    0,   0,
+#                   -0.5,  0,    0,    1,    0,   0,
+#                   0,     0,   -0.5, -0.5,  1,   0,
+#                   0,    -0.5,  0,    0,   -0.5, 1),
+#                 nrow=n2.1, ncol=n2.1, byrow=TRUE)
+#  checkIdentical(geneFlowTinv(x2.1, names=FALSE), test)
+#}
+#
+#test.M <- function()
+#{
+#  ## Test with result on page 29 of Mrode (2005)
+#  test <- matrix(c(0,   0,   0,   0,   0,   0,
+#                   0,   0,   0,   0,   0,   0,
+#                   0.5, 0.5, 0,   0,   0,   0,
+#                   0.5, 0,   0,   0,   0,   0,
+#                   0,   0,   0.5, 0.5, 0,   0,
+#                   0,   0.5, 0,   0,   0.5, 0),
+#                 nrow=n2.1, ncol=n2.1, byrow=TRUE)
+#  checkIdentical(gameteFlowM(x2.1, names=FALSE), test)
+#}
+#
+#### }}}
+#### {{{ --- Mendelian sampling covariance matrix (D) ---
+#
+#test.D <- function()
+#{
+#  ## Test with result on page 28 of Mrode (2005)
+#  test <- c(1, 1, 0.5, 0.75, 0.5, 0.46875)
+#  test1 <- matrix(0, nrow=n2.1, ncol=n2.1)
+#  diag(test1) <- test
+#  checkIdentical(mendelianSamplingD(x2.1, matrix=FALSE, names=FALSE), test)
+#  checkIdentical(mendelianSamplingD(x2.1, names=FALSE), test1)
+#}
 
 ### }}}
 ### {{{ --- Model matrix (Z) ---
