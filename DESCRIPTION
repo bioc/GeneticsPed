@@ -7,7 +7,7 @@ Description: Classes and methods for handling pedigree data. It
 Author: Gregor Gorjanc and David A. Henderson <dnadave@insightful.com>,
   with code contributions by Brian Kinghorn and Andrew Percy
   (see file COPYING)
-Maintainer: Gregor Gorjanc <gregor.gorjanc@bfro.uni-lj.si>
+Maintainer: The R Genetics Project <r-genetics-talk@lists.sourceforge.net>
 URL: http://rgenetics.org
 License: LGPL version 2.1 or later
 biocViews: Genetics
