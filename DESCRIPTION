@@ -4,7 +4,7 @@ Description: Classes and methods for handling pedigree data. It
   also includes functions to calculate genetic relationship measures
   as relationship and inbreeding coefficients and other utilities.
   Note that package is not yet stable. Use it with care!
-Author: Gregor Gorjanc and David A. Henderson <dnadave@insightful.com>,
+Author: Gregor Gorjanc and David A. Henderson <dnadave@comcast.net>,
   with code contributions by Brian Kinghorn and Andrew Percy
   (see file COPYING)
 Maintainer: The R Genetics Project <r-genetics-talk@lists.sourceforge.net>
