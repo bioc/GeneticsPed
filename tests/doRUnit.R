@@ -45,7 +45,12 @@ if(require("RUnit", quietly=TRUE)) {
                     fileName=paste(pathReport, ".txt", sep=""))
 
   ## Report to HTML file
-  printHTMLProtocol(tests, fileName=paste(pathReport, ".html", sep=""))
+  ## NOTE from H. Pages <hpages@fhcrc.org> from the Gentleman Lab (Oct 16,
+  ##   2008): I've added the test below because printHTMLProtocol() seems
+  ##   to be broken in RUnit 0.4.19 on the OS X platform. That would be
+  ##   good if the RUnit author was actually RUnit-testing his own package!
+  if (R.Version()$os != "darwin8.11.1") 
+    printHTMLProtocol(tests, fileName=paste(pathReport, ".html", sep=""))
 
   ## Return stop() to cause R CMD check stop in case of
   ##  - failures i.e. FALSE to unit tests or
