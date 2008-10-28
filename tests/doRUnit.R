@@ -47,9 +47,8 @@ if(require("RUnit", quietly=TRUE)) {
   ## Report to HTML file
   ## NOTE from H. Pages <hpages@fhcrc.org> from the Gentleman Lab (Oct 16,
   ##   2008): I've added the test below because printHTMLProtocol() seems
-  ##   to be broken in RUnit 0.4.19 on the OS X platform. That would be
-  ##   good if the RUnit author was actually RUnit-testing his own package!
-  if (R.Version()$os != "darwin8.11.1") 
+  ##   to be broken in RUnit 0.4.19 on the OS X platform.
+  if (substring(R.Version()$os, 1, 6) != "darwin") 
     printHTMLProtocol(tests, fileName=paste(pathReport, ".html", sep=""))
 
   ## Return stop() to cause R CMD check stop in case of
