@@ -73,7 +73,7 @@ sort.Pedigree <- function(x, decreasing=FALSE, na.last=TRUE, ...,
       }
       else
       {
-        return(x[do.call("order", c(list(x[[generation]]), args)), ])
+        return(x[do.call(order, c(list(x[[generation]]), args)), ])
       }
 #      return(x[do.call("order", c(list(x[[generation]]), args)), ])
     } else {
