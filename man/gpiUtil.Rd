@@ -43,10 +43,11 @@ law for use in \code{\link{gpi}}.
 
 Hardy-Weinberg probabilities for a gene with two alleles A and B, with
 probabilities \eqn{Pr(A)} and \eqn{Pr(B)} are:
-\item \eqn{Pr(AA) = Pr(A)^2}
-\item \eqn{Pr(AB) = 2 * Pr(A) * Pr(A)}
-\item \eqn{Pr(BB) = Pr(B)^2}
-
+\itemize{
+  \item \eqn{Pr(AA) = Pr(A)^2}
+  \item \eqn{Pr(AB) = 2 * Pr(A) * Pr(A)}
+  \item \eqn{Pr(BB) = Pr(B)^2}
+}
 }
 
 \value{
