@@ -46,7 +46,7 @@ inline int sign( int );
 inline int sign( double );
 inline double stdnormal_inv( double );
 inline double stdnormal_cdf( double );
-inline double lgamma( double );
+inline double lGamma( double );
 inline double incomplete_beta( double , double , double );
 inline double betacf( double , double , double );
 inline double t_cdf( double , int );
