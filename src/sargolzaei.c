@@ -16,7 +16,7 @@ void sargolzaei(int *n, int *m)
   /* Variable declaration  */
 
   // integer vars
-  int i, j, k, rN, rS, S, D, MIP;
+  int i=0, j=0, k=0, rN=0, rS=0, S=0, D=0, MIP=0;
   // main and reduced pedigrees
   int Ped[*n + 1][2], rPed[*m + 1][2];
   // sorted individuals id based on the id of their fathers
@@ -93,7 +93,7 @@ void sargolzaei(int *n, int *m)
     for(j = 1; j <= MIP; j++) // trace forth the reduced pedigree
       x[j] += (x[rPed[j][0]] + x[rPed[j][1]]) * 0.5f;
 
-    for(i=0; i < n; i++)      // obtain F for progeny of the current father
+    for(i=0; i < *n; i++)      // obtain F for progeny of the current father
       if(S != Ped[SId[i]][0]) break;
       else F[SId[i]] = x[Link[Ped[SId[i]][1]]] * 0.5f;
 
