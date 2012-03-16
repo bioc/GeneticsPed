@@ -30,7 +30,7 @@ geneContribution <- function(x, relative=TRUE)
   for(i in rev(seq(along=x[[subject]]))) {
     k <- which(x[[subject]] %in% x[i, ascendant])
     if(length(k) > 0) {
-      cont1 <- cont[!isUnknown(x[i, ], col=ascendant)]
+      cont1 <- cont[!is.na(x[i, ], col=ascendant)]
       if(length(cont1) > 2) {
         test <- names(cont1) %in% names(multi)
         cont1[test] <- cont1[test] / multi

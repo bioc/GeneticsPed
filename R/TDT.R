@@ -28,8 +28,8 @@ geneFlowT <- function(x, sort=TRUE, names=TRUE, ...)
 
   asc1 <- as.character(getFather(x))
   asc2 <- as.character(getMother(x))
-  testAsc1 <- !isUnknown(asc1)
-  testAsc2 <- !isUnknown(asc2)
+  testAsc1 <- !is.na(asc1)
+  testAsc2 <- !is.na(asc2)
   ## individuals with at least one ascendant known
   set <- which(!(!testAsc1 & !testAsc2))
 
@@ -83,8 +83,8 @@ gameteFlowM <- function(x, sort=TRUE, names=TRUE, ...)
 
   asc1 <- as.character(getFather(x))
   asc2 <- as.character(getMother(x))
-  testAsc1 <- !isUnknown(asc1)
-  testAsc2 <- !isUnknown(asc2)
+  testAsc1 <- !is.na(asc1)
+  testAsc2 <- !is.na(asc2)
   ## individuals with at least one ascendant known
   set <- which(!(!testAsc1 & !testAsc2))
 
@@ -122,8 +122,8 @@ mendelianSamplingD <- function(x, matrix=TRUE, names=TRUE, ...)
   sub <- as.character(getId(x))
   asc1 <- as.character(getFather(x))
   asc2 <- as.character(getMother(x))
-  testAsc1 <- !isUnknown(asc1)
-  testAsc2 <- !isUnknown(asc2)
+  testAsc1 <- !is.na(asc1)
+  testAsc2 <- !is.na(asc2)
 
   ## --- Core ---
 
