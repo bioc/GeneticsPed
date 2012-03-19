@@ -28,8 +28,8 @@ relationshipAdditive <- function(x, sort=TRUE, names=TRUE, ...)
 
   asc1 <- as.character(x[[ascendant[1]]])
   asc2 <- as.character(x[[ascendant[2]]])
-  testAsc1 <- !is.na(x[[ascendant[1]]])
-  testAsc2 <- !is.na(x[[ascendant[2]]])
+  testAsc1 <- !isUnknown(x[[ascendant[1]]])
+  testAsc2 <- !isUnknown(x[[ascendant[2]]])
   testAsc  <- testAsc1 & testAsc2
   ## subjects with at least one ascendant known
   set <- which(!(!testAsc1 & !testAsc2))
