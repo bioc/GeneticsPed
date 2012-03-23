@@ -158,9 +158,7 @@ Object of Pedigree class is a data.frame with columns that can be
 divided into core columns (subject, ascendant(s), sex, dtBirth and
 generationTODO) and possibly other columns such as data on phenotype and
 genotype and other subject attributes, for example factors and
-covariates TODO. Class name starts in upper case i.e. \dQuote{Pedigree}
-and not \dQuote{pedigree}, due to name clash with similar function in
-\pkg{kinship} package.
+covariates TODO. 
 
 Additionally, the following attributes are set on pedigree:
 
@@ -201,8 +199,7 @@ Additionally, the following attributes are set on pedigree:
 
 \code{\link{check}},
 \code{\link{sort}}, and \code{\link{extend}} provide help on pedigree
-utility functions. There is also \code{\link[kinship]{pedigree}} in
-\pkg{kinship} package
+utility functions. 
 
 }
 
