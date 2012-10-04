@@ -51,7 +51,7 @@ sort.Pedigree <- function(x, decreasing=FALSE, na.last=TRUE, ...,
         na.value <- paste(as.character(attr(x, ".unknown")$.id))
         n.na <- length(na.value)
         n <- nrow(x)
-      	ret <- .C(name=R_pedSort,
+      	ret <- .C(R_pedSort,
             ## 1 number of individuals
             as.integer(n),
             ## 2 individual ID

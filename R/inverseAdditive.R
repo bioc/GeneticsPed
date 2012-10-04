@@ -32,7 +32,7 @@ inverseAdditive <- function(x, sort=TRUE, names=TRUE, ...)
 
   n <- nrow(x)
   idx <- vector(mode="integer" , length=n)
-  ret <- .C(name=R_inverseAdditive,
+  ret <- .C(R_inverseAdditive,
             ## 1 number of individuals
             as.integer(n),
             ## 2 individual ID

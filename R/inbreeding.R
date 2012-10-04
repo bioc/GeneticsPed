@@ -34,7 +34,7 @@ inbreeding <- function(x, method="meuwissen", sort=TRUE, names=TRUE, ...)
     ret <- diag(relationshipAdditive(x, sort=sort, names=FALSE, ...)) - 1
   } else if(method == "meuwissen") { # Meuwissen and Luo method
     idx <- vector(mode="integer", length=n)
-    ret <- .C(name=R_meuwissen,
+    ret <- .C(R_meuwissen,
               ## 1 number of individuals
               as.integer(n),
               ## 2 individual
