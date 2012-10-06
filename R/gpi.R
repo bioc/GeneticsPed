@@ -57,7 +57,7 @@ gpi <- function(gp, hwp)
   ## --- Call ---
 
   ret <- vector(mode="numeric", length=nId)
-  ret <- .Fortran(name=R_gpi,
+  ret <- .Fortran(R_gpi,
                   ## Number of individuals
                   nobs=as.integer(nId),
                   ## Number of alleles
