@@ -221,7 +221,7 @@ void InbreedIt( Pedigree & Ped , VecMap & f )
       f.insert( VecValue( row , 0.0 ) );
     }
     else if ( ( Ped.GetParentIndex( 0 , row ) == Ped.GetParentIndex( 0 , row - 1 ) )
-     && ( Ped.GetParentIndex( 1 , row ) == Ped.GetParentIndex( 1 , row - 1 ) ) )
+        && ( Ped.GetParentIndex( 1 , row ) == Ped.GetParentIndex( 1 , row - 1 ) ) )
     {
       ff = f.find( row - 1 );
       f.insert( VecValue( row , ff->second ) );
@@ -236,37 +236,43 @@ void InbreedIt( Pedigree & Ped , VecMap & f )
       while ( !( ancestors.empty() ) )
       {
         int tancestor = ancestor;
-	if ( Ped.GetParentIndex( 0 , tancestor ) > -1 )
-	  ancestors[ Ped.GetParentIndex( 0 , tancestor ) ] = Ped.GetParentIndex( 0 , tancestor );
-	if ( Ped.GetParentIndex( 1 , tancestor ) > -1 )
-	  ancestors[ Ped.GetParentIndex( 1 , tancestor ) ] = Ped.GetParentIndex( 1 , tancestor );
-	double r = 0.5 * l[ tancestor ];
-	int oancestor = Ped.GetParentIndex( 0 , tancestor );
-	int yancestor = Ped.GetParentIndex( 1 , tancestor );
-	if ( oancestor > yancestor )
-	{
-	  int tmpancestor = oancestor;
-	  oancestor = yancestor;
-	  yancestor = tmpancestor;
-	}
-	if ( yancestor > -1 )
-	{
-	  l[ yancestor ] += r;
-	  if ( oancestor > -1 )
-	  {
-	    l[ oancestor ] += r;
-	  }
-	}
-	fi += l[ ancestor ] * l[ ancestor ] * d[ ancestor ];
-	l[ ancestor ] = 0.0;
-	tancestor = ancestor;
-	ancestors.erase( ancestor );
-	IntMap::iterator newancestor = ancestors.begin();
-	ancestor = newancestor->first;
+        if ( Ped.GetParentIndex( 0 , tancestor ) > -1 )
+          ancestors[ Ped.GetParentIndex( 0 , tancestor ) ] = Ped.GetParentIndex( 0 , tancestor );
+        if ( Ped.GetParentIndex( 1 , tancestor ) > -1 )
+          ancestors[ Ped.GetParentIndex( 1 , tancestor ) ] = Ped.GetParentIndex( 1 , tancestor );
+        double r = 0.5 * l[ tancestor ];
+        int oancestor = Ped.GetParentIndex( 0 , tancestor );
+        int yancestor = Ped.GetParentIndex( 1 , tancestor );
+        if ( oancestor > yancestor )
+        {
+          int tmpancestor = oancestor;
+          oancestor = yancestor;
+          yancestor = tmpancestor;
+        }
+        if ( yancestor > -1 )
+        {
+          l[ yancestor ] += r;
+          if ( oancestor > -1 )
+          {
+            l[ oancestor ] += r;
+          }
+        }
+        fi += l[ ancestor ] * l[ ancestor ] * d[ ancestor ];
+        l[ ancestor ] = 0.0;
+        tancestor = ancestor;
+        ancestors.erase( ancestor );
+        IntMap::iterator newancestor = ancestors.begin();
+        ancestor = newancestor->first;
       }
       f[ row ] = fi;
     }
   }
-  l.erase( l.begin() , l.end() );
-  d.erase( d.begin() , d.end() );
+  if ( !( l.empty() ) )
+  {
+    l.erase( l.begin() , l.end() );
+  }
+  if ( !( d.empty() ) )
+  {
+    d.erase( d.begin() , d.end() );
+  }
 }
