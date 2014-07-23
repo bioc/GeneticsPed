@@ -260,8 +260,9 @@ void InbreedIt( Pedigree & Ped , VecMap & f )
         fi += l[ ancestor ] * l[ ancestor ] * d[ ancestor ];
         l[ ancestor ] = 0.0;
         tancestor = ancestor;
-        ancestors.erase( ancestor );
-        IntMap::iterator newancestor = ancestors.begin();
+        IntMap::iterator newancestor = ancestors.find( ancestor );
+        ancestors.erase( newancestor );
+        newancestor = ancestors.begin();
         ancestor = newancestor->first;
       }
       f[ row ] = fi;
