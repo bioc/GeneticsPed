@@ -260,9 +260,9 @@ void InbreedIt( Pedigree & Ped , VecMap & f )
         fi += l[ ancestor ] * l[ ancestor ] * d[ ancestor ];
         l[ ancestor ] = 0.0;
         tancestor = ancestor;
-        IntMap::iterator newancestor = ancestors.find( ancestor );
-        ancestors.erase( newancestor );
-        newancestor = ancestors.begin();
+/* I think this is where the error is */
+        ancestors.erase( ancestor );
+        IntMap::iterator newancestor = ancestors.begin();
         ancestor = newancestor->first;
       }
       f[ row ] = fi;
