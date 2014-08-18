@@ -85,6 +85,7 @@ values. 2nd edition. CAB International. ISBN 0-85199-000-2
 \code{\link{kinship}} and \code{\link{inbreeding}}}
 
 \examples{
+if(require(gdata))
   data(Mrode2.1)
   Mrode2.1$dtB <- as.Date(Mrode2.1$dtB)
   x2.1 <- Pedigree(x=Mrode2.1, subject="sub", ascendant=c("fat", "mot"),
@@ -95,6 +96,7 @@ values. 2nd edition. CAB International. ISBN 0-85199-000-2
   fractions(geneFlowTinv(x2.1))
   fractions(gameteFlowM(x2.1))
   mendelianSamplingD(x2.1)
+}
 }
 
 \keyword{array}
