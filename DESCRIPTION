@@ -11,7 +11,7 @@ Maintainer: David Henderson <DNADavenator@GMail.Com>
 URL: http://rgenetics.org
 License: LGPL (>= 2.1)
 biocViews: Genetics
-Version: 1.27.0
+Version: 1.27.1
 Depends: R (>= 2.4.0), MASS
 Date: 2007-09-20
-Suggests: RUnit, gtools
+Suggests: RUnit, gtools, gdata
