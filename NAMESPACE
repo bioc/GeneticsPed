@@ -7,6 +7,8 @@ useDynLib(GeneticsPed, .registration=TRUE, .fixes="R_")
 
 ## importFrom(gdata, isUnknown, unknownToNA, NAToUnknown)
 
+import(gdata)
+
 export(
        ## Basic stuff
        Pedigree,
