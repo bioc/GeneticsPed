@@ -353,49 +353,7 @@ void TPed::operator= ( const TPed &copy )
   {
     return;
   }
-  delete s_index;
-  delete d_index;
-  s_index = new int;
-  d_index = new int;
-  s_index = NULL;
-  d_index = NULL;
-  bool parent = false;
-  animal = copy.animal;
-  sort_index = copy.sort_index;
-  if ( copy.sire != "" )
-  {
-    sire = copy.sire;
-    parent = true;
-  }
-  else
-  {
-    sire = "";
-  }
-  if ( copy.dam != "" )
-  {
-    dam = copy.dam;
-    parent = true;
-  }
-  else
-  {
-    dam = "";
-  }
-  if ( copy.s_index != NULL )
-  {
-    SetIndex( *copy.s_index , SIRE );
-  }
-  if ( copy.d_index != NULL )
-  {
-    SetIndex( *copy.d_index , DAM );
-  }
-  if ( parent )
-  {
-    hasparents = true;
-  }
-  else
-  {
-    hasparents = false;
-  }
+  copyPed( copy );
 }
 
 bool TPed::operator< ( const TPed& T ) const
@@ -453,6 +411,11 @@ void TPed::ShowPed()
   {
     Rprintf(" s_index: NULL d_index: NULL\n");
   }
+}
+
+void copyPed( const TPed &copy )
+{
+  SetPed( copy.animal , copy.sire , copy.dam , copy.sort_index );
 }
 
 void Pedigree::CreatePedigree( TPedVec& T )

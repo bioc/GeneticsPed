@@ -58,6 +58,7 @@ class TPed
     void operator= ( const TPed &copy );
     void ShowPed();
   private:
+    void copyPed( const TPed &copy );
     string animal, sire, dam;
     int *s_index, *d_index, sort_index;
     bool hasparents;
