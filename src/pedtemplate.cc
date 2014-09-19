@@ -126,8 +126,14 @@ TPed::TPed( const TPed &copy ):
 
 TPed::~TPed()
 {
-  delete s_index;
-  delete d_index;
+  if ( s_index )
+  {
+    delete s_index;
+  }
+  if ( d_index )
+  {
+    delete d_index;
+  }
 }
 
 string TPed::ReturnAnimal()
