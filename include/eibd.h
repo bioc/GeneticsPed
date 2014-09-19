@@ -16,13 +16,13 @@
 #ifndef EIBD_H
 #define EIBD_H
 
-using namespace std;
-
 #include <R.h>
 #include <Rdefines.h>
 #include <map>
 #include <algorithm>
 #include <string>
+
+using namespace std;
 
 class EIBDMember;
 

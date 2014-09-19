@@ -11,14 +11,14 @@
 #ifndef INBREED_H
 #define INBREED_H
 
-using namespace std;
-
 #include <string>
 #include <map>
 #include <vector>
 #include <algorithm>
 #include "pedtemplate.h"
 #include "math_utilities.h"
+
+using namespace std;
 
 class AmatRow;
 

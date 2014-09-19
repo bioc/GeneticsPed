@@ -15,8 +15,6 @@
 #ifndef PEDTEMPLATE_H
 #define PEDTEMPLATE_H
 
-using namespace std;
-
 #define R_NO_REMAP
 
 #include <R.h>
@@ -24,6 +22,8 @@ using namespace std;
 #include <string>
 #include <algorithm>
 #include <vector>
+
+using namespace std;
 
 class TPed;
 class Pedigree;

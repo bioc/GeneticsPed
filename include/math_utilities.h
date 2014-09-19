@@ -18,8 +18,6 @@
 #define _FPMIN_ 1.0e-30
 #endif
 
-using namespace std;
-
 #include <R.h>
 #include <Rdefines.h>
 #include <vector>
@@ -27,6 +25,8 @@ using namespace std;
 #include <algorithm>
 #include <math.h>
 #include <cerrno>
+
+using namespace std;
 
 class StdVals;
 

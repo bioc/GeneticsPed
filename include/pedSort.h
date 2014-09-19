@@ -11,8 +11,6 @@
 #ifndef PEDSORT_H
 #define PEDSORT_H
 
-using namespace std;
-
 #include <R.h>
 #include <Rdefines.h>
 #include <string>
@@ -20,6 +18,8 @@ using namespace std;
 #include <algorithm>
 #include "pedtemplate.h"
 #include "sortped.h"
+
+using namespace std;
 
 extern "C" {
 

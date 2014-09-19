@@ -11,8 +11,6 @@
 #ifndef AINVERSE_H
 #define AINVERSE_H
 
-using namespace std;
-
 #include <R.h>
 #include <Rdefines.h>
 #include <string>
@@ -22,6 +20,8 @@ using namespace std;
 #include "pedtemplate.h"
 #include "inbreed.h"
 #include "sortped.h"
+
+using namespace std;
 
 extern "C" {
 

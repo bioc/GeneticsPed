@@ -4,9 +4,9 @@
 #include <R.h>
 #define R_NO_REMAP
 
-using namespace std;
-
 #include "../include/pedtemplate.h"
+
+using namespace std;
 
 void SortPed( Pedigree & , TPedVec & );
 
