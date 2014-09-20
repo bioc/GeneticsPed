@@ -2,7 +2,7 @@
 
 void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
 {
-  bool ancestor = false, ped_problem = false;
+  bool ped_problem = false;
   TPedVec::iterator mp = Pedtmp.begin();
   TPedVec all, finalprogeny;
   vector< string > parlist, sirelist, damlist;
@@ -87,7 +87,6 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
       {
         all.insert( all.end() , TPed( *p ) );
         parlist.erase( p );
-        ancestor = true;
       }
     }
     else
