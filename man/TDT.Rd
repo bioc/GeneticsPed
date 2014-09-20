@@ -97,7 +97,6 @@ if(require(gdata))
   fractions(gameteFlowM(x2.1))
   mendelianSamplingD(x2.1)
 }
-}
 
 \keyword{array}
 \keyword{misc}
