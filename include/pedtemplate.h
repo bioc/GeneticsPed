@@ -43,6 +43,7 @@ class TPed
     string ReturnAnimal();
     string ReturnSire();
     string ReturnDam();
+    int ReturnIndex();
     void SetPed( string , string , string );
     void SetPed( string , string , string , int );
     int IsBase();

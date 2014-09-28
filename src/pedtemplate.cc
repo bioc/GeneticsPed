@@ -151,6 +151,11 @@ string TPed::ReturnDam()
   return dam;
 }
 
+int TPed::ReturnIndex()
+{
+  return sort_index;
+}
+
 void TPed::SetPed( string a , string s , string d )
 {
   bool parent = false;
@@ -421,7 +426,7 @@ void TPed::ShowPed()
 
 void copyPed( const TPed &copy )
 {
-  SetPed( copy.animal , copy.sire , copy.dam , copy.sort_index );
+  SetPed( copy.ReturnAnimal() , copy.ReturnSire() , copy.ReturnDam() , copy.ReturnIndex() );
 }
 
 void Pedigree::CreatePedigree( TPedVec& T )
