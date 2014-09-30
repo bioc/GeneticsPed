@@ -40,12 +40,13 @@ class TPed
     TPed( string );
     TPed( const TPed &copy );
     ~TPed();
-    string ReturnAnimal();
-    string ReturnSire();
-    string ReturnDam();
-    int ReturnIndex();
+    string ReturnAnimal() const;
+    string ReturnSire() const;
+    string ReturnDam() const;
+    int ReturnIndex() const;
     void SetPed( string , string , string );
     void SetPed( string , string , string , int );
+    void SetPed( string , string , string , int , int & , int & );
     int IsBase();
     int Compare( TPed );
     void SetIndex( int , TParents );

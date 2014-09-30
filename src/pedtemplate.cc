@@ -136,22 +136,22 @@ TPed::~TPed()
   }
 }
 
-string TPed::ReturnAnimal()
+string TPed::ReturnAnimal() const
 {
   return animal;
 }
 
-string TPed::ReturnSire()
+string TPed::ReturnSire() const
 {
   return sire;
 }
 
-string TPed::ReturnDam()
+string TPed::ReturnDam() const
 {
   return dam;
 }
 
-int TPed::ReturnIndex()
+int TPed::ReturnIndex() const
 {
   return sort_index;
 }
@@ -218,6 +218,45 @@ void TPed::SetPed( string a , string s , string d , int i )
   else
   {
     dam = "";
+  }
+  if ( parent )
+  {
+    hasparents = true;
+  }
+  else
+  {
+    hasparents = false;
+  }
+}
+
+void TPed::SetPed( string a , string s , string d , int i , int &si , int &di )
+{
+  bool parent = false;
+  animal = a;
+  s_index = new int;
+  d_index = new int;
+  sort_index = i;
+  if ( ( s != "." ) && ( s != "" ) )
+  {
+    sire = s;
+    *s_index = si;
+    parent = true;
+  }
+  else
+  {
+    sire = "";
+    s_index = NULL;
+  }
+  if ( ( d != "." ) && ( d != "" ) )
+  {
+    dam = d;
+    *d_index = di;
+    parent = true;
+  }
+  else
+  {
+    dam = "";
+    d_index = NULL;
   }
   if ( parent )
   {
@@ -424,9 +463,10 @@ void TPed::ShowPed()
   }
 }
 
-void copyPed( const TPed &copy )
+void TPed::copyPed( const TPed &copy )
 {
-  SetPed( copy.ReturnAnimal() , copy.ReturnSire() , copy.ReturnDam() , copy.ReturnIndex() );
+  Rprintf( "%s %s %s %i %i %i\n" , copy.animal.c_str() , copy.sire.c_str() , copy.dam.c_str() , copy.sort_index , *copy.s_index , *copy.d_index );
+  SetPed( copy.animal , copy.sire , copy.dam , copy.sort_index , *copy.s_index , *copy.d_index );
 }
 
 void Pedigree::CreatePedigree( TPedVec& T )
