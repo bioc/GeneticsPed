@@ -46,7 +46,7 @@ class TPed
     int ReturnIndex() const;
     void SetPed( string , string , string );
     void SetPed( string , string , string , int );
-    void SetPed( string , string , string , int , int & , int & );
+    void SetPed( string , string , string , int , int , int );
     int IsBase();
     int Compare( TPed );
     void SetIndex( int , TParents );

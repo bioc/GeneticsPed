@@ -20,13 +20,13 @@ void meuwissen( int *n , char **ind , char **father , char **mother , double *f 
   VecMap fval;
   int ii = 0;
   vector< string > missing_values;
-  for ( int i = 0; i <*n_na; i++ )
+  for ( int i = 0; i < *n_na; i++ )
   {
     ostringstream ms;
     ms << na_value[ i ];
     missing_values.insert( missing_values.end() , ms.str()  );
   }
-  for ( unsigned int i=0 ; i < static_cast< unsigned int >( *n ) ; i++ )
+  for ( unsigned int i = 0 ; i < static_cast< unsigned int >( *n ) ; i++ )
   {
     ostringstream kss, pss, mss, tmss, tpss;
     kss << ind[i];
@@ -49,10 +49,14 @@ void meuwissen( int *n , char **ind , char **father , char **mother , double *f 
     {
       mss << mother[i];
     }
-    string kid = kss.str();
-    string pop = pss.str();
-    string mom = mss.str();
-    pedtmp.insert( pedtmp.end() , TPed( kid , pop , mom , static_cast< int >( i ) + 1 ) );
+    Rprintf("Here!\n");
+    Rprintf("%s\n" , kss.str().c_str() );
+    Rprintf("%s\n" , pss.str().c_str() );
+    Rprintf("%s\n" , mss.str().c_str() );
+    Rprintf("%i\n" , static_cast< int >( i ) + 1 );
+    TPed( kss.str() , pss.str() , mss.str() , static_cast< int >( i ) + 1 ).ShowPed();
+    pedtmp.insert( pedtmp.end() , TPed( kss.str() , pss.str() , mss.str() , static_cast< int >( i ) + 1 ) );
+    Rprintf("But not Here!\n");
   }
   SortPed( ped , pedtmp );
   for ( unsigned int i = 0 ; i < static_cast< unsigned int >( *n ) ; i++ )

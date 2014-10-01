@@ -99,6 +99,11 @@ TPed::TPed( string a , string s , string d , int i )
   {
     hasparents = false;
   }
+  Rprintf("PedTemplate!\n");
+  Rprintf("%s\n" , animal.c_str() );
+  Rprintf("%s\n" , sire.c_str() );
+  Rprintf("%s\n" , dam.c_str() );
+  Rprintf("%i\n" , static_cast< int >( sort_index ) );
 }
 
 TPed::TPed( string a )
@@ -229,7 +234,7 @@ void TPed::SetPed( string a , string s , string d , int i )
   }
 }
 
-void TPed::SetPed( string a , string s , string d , int i , int &si , int &di )
+void TPed::SetPed( string a , string s , string d , int i , int si , int di )
 {
   bool parent = false;
   animal = a;
@@ -239,7 +244,14 @@ void TPed::SetPed( string a , string s , string d , int i , int &si , int &di )
   if ( ( s != "." ) && ( s != "" ) )
   {
     sire = s;
-    *s_index = si;
+    if ( si )
+    {
+      *s_index = si;
+    }
+    else
+    {
+      s_index = NULL;
+    }
     parent = true;
   }
   else
@@ -250,7 +262,14 @@ void TPed::SetPed( string a , string s , string d , int i , int &si , int &di )
   if ( ( d != "." ) && ( d != "" ) )
   {
     dam = d;
-    *d_index = di;
+    if ( di )
+    {
+      *d_index = si;
+    }
+    else
+    {
+      d_index = NULL;
+    }
     parent = true;
   }
   else
@@ -290,7 +309,7 @@ void TPed::SetIndex( int &index , int par )
   {
     if ( index >= 0 )
     {
-//      delete s_index;
+      delete s_index;
       s_index = new int;
       *s_index = index;
     }
@@ -299,7 +318,7 @@ void TPed::SetIndex( int &index , int par )
   {
     if ( index >= 0 )
     {
-//      delete d_index;
+      delete d_index;
       d_index = new int;
       *d_index = index;
     }
@@ -312,7 +331,7 @@ void TPed::SetIndex( int index , TParents par )
   {
     if ( s_index )
     {
-//      delete s_index;
+      delete s_index;
       s_index = new int;
       *s_index = index;
     }
@@ -326,7 +345,7 @@ void TPed::SetIndex( int index , TParents par )
   {
     if ( d_index )
     {
-//      delete d_index;
+      delete d_index;
       d_index = new int;
       *d_index = index;
     }
@@ -465,8 +484,18 @@ void TPed::ShowPed()
 
 void TPed::copyPed( const TPed &copy )
 {
-  Rprintf( "%s %s %s %i %i %i\n" , copy.animal.c_str() , copy.sire.c_str() , copy.dam.c_str() , copy.sort_index , *copy.s_index , *copy.d_index );
-  SetPed( copy.animal , copy.sire , copy.dam , copy.sort_index , *copy.s_index , *copy.d_index );
+  int *si = NULL , *di = NULL;
+  if ( *copy.s_index )
+  {
+    si = new int;
+    *si = *copy.s_index;
+  }
+  if ( *copy.d_index )
+  {
+    di = new int;
+    *di = *copy.d_index;
+  }
+  SetPed( copy.animal , copy.sire , copy.dam , copy.sort_index , *si , *di );
 }
 
 void Pedigree::CreatePedigree( TPedVec& T )
