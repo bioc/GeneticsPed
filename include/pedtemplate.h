@@ -46,19 +46,19 @@ class TPed
     int ReturnIndex() const;
     void SetPed( string , string , string );
     void SetPed( string , string , string , int );
-    void SetPed( string , string , string , int , int , int );
-    int IsBase();
+    void SetPed( string , string , string , int , int & , int & );
+    int IsBase() const;
     int Compare( TPed );
     void SetIndex( int , TParents );
     void SetIndex( int &sindex , int );
     void SetSortIndex( int );
-    int GetIndex( TParents );
-    int GetSortIndex() { return sort_index; }
-    bool Exists( TParents );
+    int GetIndex( TParents ) const;
+    int GetSortIndex() const { return sort_index; }
+    bool Exists( TParents ) const;
     bool operator< ( const TPed& T ) const;
     bool operator== ( const string& arg );
     void operator= ( const TPed &copy );
-    void ShowPed();
+    void ShowPed() const;
   private:
     void copyPed( const TPed &copy );
     string animal, sire, dam;

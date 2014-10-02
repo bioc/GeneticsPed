@@ -29,6 +29,7 @@ void meuwissen( int *n , char **ind , char **father , char **mother , double *f 
   for ( unsigned int i = 0 ; i < static_cast< unsigned int >( *n ) ; i++ )
   {
     ostringstream kss, pss, mss, tmss, tpss;
+    TPed tped;
     kss << ind[i];
     vector< string >::const_iterator miss = missing_values.begin();
     tpss << father[i];
@@ -49,14 +50,7 @@ void meuwissen( int *n , char **ind , char **father , char **mother , double *f 
     {
       mss << mother[i];
     }
-    Rprintf("Here!\n");
-    Rprintf("%s\n" , kss.str().c_str() );
-    Rprintf("%s\n" , pss.str().c_str() );
-    Rprintf("%s\n" , mss.str().c_str() );
-    Rprintf("%i\n" , static_cast< int >( i ) + 1 );
-    TPed( kss.str() , pss.str() , mss.str() , static_cast< int >( i ) + 1 ).ShowPed();
     pedtmp.insert( pedtmp.end() , TPed( kss.str() , pss.str() , mss.str() , static_cast< int >( i ) + 1 ) );
-    Rprintf("But not Here!\n");
   }
   SortPed( ped , pedtmp );
   for ( unsigned int i = 0 ; i < static_cast< unsigned int >( *n ) ; i++ )

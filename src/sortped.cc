@@ -175,11 +175,14 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
       if ( q->Exists( SIRE ) )
       {
         a = find( all.begin() , all.end() , q->ReturnSire() );
+        Rprintf( "Maybe Here?\n" );
         if ( a != all.end() )
         {
           q->SetIndex( a - all.begin() , SIRE );
           all.insert( all.end() , *q );
+          Rprintf( "Here?\n" );
           parents.erase( q );
+          Rprintf( "or Here?\n" );
           if ( q + 1 <= parents.end() )
           {
             q++;
