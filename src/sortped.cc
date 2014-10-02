@@ -196,7 +196,6 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
         if ( insertQ )
         {
           all.insert( all.end() , q->ReturnTPed() );
-          q->ShowPed();
           parents.erase( q );
           if ( q + 1 <= parents.end() )
           {
