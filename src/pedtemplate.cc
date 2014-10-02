@@ -126,11 +126,11 @@ TPed::TPed( const TPed &copy ):
 
 TPed::~TPed()
 {
-  if ( s_index )
+  if ( GetIndex( SIRE ) > -1 )
   {
     delete s_index;
   }
-  if ( d_index )
+  if ( GetIndex( DAM ) > -1 )
   {
     delete d_index;
   }
@@ -229,7 +229,7 @@ void TPed::SetPed( string a , string s , string d , int i )
   }
 }
 
-void TPed::SetPed( string a , string s , string d , int i , int &si , int &di )
+void TPed::SetPed( string a , string s , string d , int i , int si , int di )
 {
   bool parent = false;
   animal = a;
@@ -239,7 +239,7 @@ void TPed::SetPed( string a , string s , string d , int i , int &si , int &di )
   if ( ( s != "." ) && ( s != "" ) )
   {
     sire = s;
-    if ( &si )
+    if ( si > -1 )
     {
       *s_index = si;
     }
@@ -257,7 +257,7 @@ void TPed::SetPed( string a , string s , string d , int i , int &si , int &di )
   if ( ( d != "." ) && ( d != "" ) )
   {
     dam = d;
-    if ( &di )
+    if ( di > -1 )
     {
       *d_index = di;
     }
@@ -304,7 +304,6 @@ void TPed::SetIndex( int &index , int par )
   {
     if ( index >= 0 )
     {
-      delete s_index;
       s_index = new int;
       *s_index = index;
     }
@@ -313,7 +312,6 @@ void TPed::SetIndex( int &index , int par )
   {
     if ( index >= 0 )
     {
-      delete d_index;
       d_index = new int;
       *d_index = index;
     }
@@ -324,31 +322,13 @@ void TPed::SetIndex( int index , TParents par )
 {
   if ( par == SIRE )
   {
-    if ( s_index )
-    {
-      delete s_index;
-      s_index = new int;
-      *s_index = index;
-    }
-    else
-    {
-      s_index = new int;
-      *s_index = index;
-    }
+    s_index = new int;
+    *s_index = index;
   }
   else
   {
-    if ( d_index )
-    {
-      delete d_index;
-      d_index = new int;
-      *d_index = index;
-    }
-    else
-    {
-      d_index = new int;
-      *d_index = index;
-    }
+    d_index = new int;
+    *d_index = index;
   }
 }
 
@@ -468,22 +448,7 @@ void TPed::ShowPed() const
 
 void TPed::copyPed( const TPed &copy )
 {
-  int *si , *di;
-  si = new int;
-  di = new int;
-  si = NULL;
-  di = NULL;
-  if ( copy.s_index )
-  {
-    si = new int;
-    si = copy.s_index;
-  }
-  if ( copy.d_index )
-  {
-    di = new int;
-    di = copy.d_index;
-  }
-  SetPed( copy.animal , copy.sire , copy.dam , copy.sort_index , *si , *di );
+  SetPed( copy.animal , copy.sire , copy.dam , copy.sort_index , copy.GetIndex( SIRE ) , copy.GetIndex( DAM ) );
 }
 
 void Pedigree::CreatePedigree( TPedVec& T )
@@ -491,7 +456,7 @@ void Pedigree::CreatePedigree( TPedVec& T )
   TPedVec::iterator tp = T.begin();
   while ( !( T.empty() ) )
   {
-    pedigree.insert( pedigree.end() , *tp );
+    pedigree.insert( pedigree.end() , tp->ReturnTPed() );
     T.erase(tp);
   }
 }
@@ -571,4 +536,20 @@ int Pedigree::GetIndex( string a )
   {
     return -1;
   }
+}
+
+void Pedigree::operator= ( const Pedigree &copy )
+{
+  if ( this == &copy )
+  {
+    return;
+  }
+  copyPed( copy );
+}
+
+void Pedigree::copyPed( const Pedigree &copy )
+{
+  pedigree = copy.pedigree;
+  effect_label = copy.effect_label;
+  ancestor = copy.ancestor;
 }

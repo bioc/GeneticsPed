@@ -44,9 +44,10 @@ class TPed
     string ReturnSire() const;
     string ReturnDam() const;
     int ReturnIndex() const;
+    TPed ReturnTPed() const { return *this; }
     void SetPed( string , string , string );
     void SetPed( string , string , string , int );
-    void SetPed( string , string , string , int , int & , int & );
+    void SetPed( string , string , string , int , int , int );
     int IsBase() const;
     int Compare( TPed );
     void SetIndex( int , TParents );
@@ -86,7 +87,9 @@ class Pedigree
     string GetLabel() { return effect_label; }
     string GetMember( int i ) { return pedigree[ i ].ReturnAnimal(); }
     void Erase() { pedigree.erase( pedigree.begin() , pedigree.end() ); }
+    void operator= ( const Pedigree &copy );
   private:
+    void copyPed( const Pedigree &copy );
     TPedVec pedigree;
     string effect_label;
     bool ancestor;

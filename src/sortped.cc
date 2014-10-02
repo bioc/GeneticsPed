@@ -141,7 +141,7 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
         if ( a != all.end() )
         {
           q->SetIndex( a - all.begin() , DAM );
-          all.insert( all.end() , *q );
+          all.insert( all.end() , q->ReturnTPed() );
           parents.erase( q );
           if ( q + 1 <= parents.end() )
           {
@@ -172,17 +172,32 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
     }
     else
     {
-      if ( q->Exists( SIRE ) )
+      if ( q->Exists( SIRE ) || q->Exists( DAM ) )
       {
-        a = find( all.begin() , all.end() , q->ReturnSire() );
-        Rprintf( "Maybe Here?\n" );
-        if ( a != all.end() )
+        bool insertQ = false;
+        if ( q->Exists( SIRE ) )
         {
-          q->SetIndex( a - all.begin() , SIRE );
-          all.insert( all.end() , *q );
-          Rprintf( "Here?\n" );
+          a = find( all.begin() , all.end() , q->ReturnSire() );
+          if ( a != all.end() )
+          {
+            q->SetIndex( a - all.begin() , SIRE );
+            insertQ = true;
+          }
+        }
+        if ( q->Exists( DAM ) )
+        {
+          a = find( all.begin() , all.end() , q->ReturnDam() );
+          if ( a != all.end() )
+          {
+            q->SetIndex( a - all.begin() , DAM );
+            insertQ = true;
+          }
+        }
+        if ( insertQ )
+        {
+          all.insert( all.end() , q->ReturnTPed() );
+          q->ShowPed();
           parents.erase( q );
-          Rprintf( "or Here?\n" );
           if ( q + 1 <= parents.end() )
           {
             q++;
@@ -191,28 +206,6 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
           {
             q = parents.begin();
           }
-        }
-        else if ( q + 1 <= parents.end() )
-        {
-          q++;
-        }
-        else
-        {
-          q = parents.begin();
-        }
-      }
-      else if ( q->Exists( DAM ) )
-      {
-        a = find( all.begin() , all.end() , q->ReturnDam() );
-        if ( a != all.end() )
-        {
-          q->SetIndex( a - all.begin() , DAM );
-          all.insert( all.end() , *q );
-          parents.erase( q );
-          if ( q + 1 <= parents.end() )
-            q++;
-          else
-            q = parents.begin();
         }
         else if ( q + 1 <= parents.end() )
         {
