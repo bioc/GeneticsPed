@@ -63,10 +63,10 @@ void AddCoeff( EIBDMat & EIBD , Pedigree & Ped , VecMap & diag )
 
 void SetColumns( EIBDMat & EIBD )
 {
-  int index = 0, cindex = 0, max = GetIndex( 0 , EIBD.GetPedNumber() , EIBD.GetPedNumber() , EIBD.GetPedNumber() );
+  int index = 0, max = GetIndex( 0 , EIBD.GetPedNumber() , EIBD.GetPedNumber() , EIBD.GetPedNumber() );//, cindex = 0
   while ( index < max )
   {
-    cindex = EIBD.GetNextCol( index );
+//    cindex = EIBD.GetNextCol( index );
     index = EIBD.GetNext( index );
   }
 }
