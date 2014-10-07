@@ -17,11 +17,11 @@ inverseAdditive <- function(x, sort=TRUE, names=TRUE, ...)
 
   ## FIXME: all this is not needed! - check Dave's code
   ## Pedigree must be sorted, extended and unknown equal to NA
-  ##x <- GeneticsPed:::checkAttributes(x, sorted=TRUE, extended=TRUE, unknownNA=TRUE)
+  ##x <- checkAttributes(x, sorted=TRUE, extended=TRUE, unknownNA=TRUE)
   ## I've commented out the above as my code does sort and extend, but does require
   ##  that unknowns be coded correctly.  This will likely save considerable time
   ##  for large pedigrees.
-  x <- GeneticsPed:::checkAttributes(x, sorted=FALSE, extended=FALSE, unknownNA=TRUE)
+  x <- checkAttributes(x, sorted=FALSE, extended=FALSE, unknownNA=TRUE)
 
   ## Find unknown value (NA, "NA", 0, ...)
   ## paste is used due to possibility of having NA and as.character returns

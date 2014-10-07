@@ -16,7 +16,7 @@ inbreeding <- function(x, method="meuwissen", sort=TRUE, names=TRUE, ...)
   if(sort) idOrig <- as.character(x[[subject]]) # for sorting-back
 
   ## Pedigree must be sorted, extended and unknowns must be NA
-  ## x <- GeneticsPed:::checkAttributes(x=x, sorted=TRUE, extended=TRUE, unknownNA=TRUE)
+  ## x <- checkAttributes(x=x, sorted=TRUE, extended=TRUE, unknownNA=TRUE)
 
   n <- nrow(x)
   ret <- vector(mode="numeric", length=n)

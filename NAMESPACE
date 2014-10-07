@@ -7,7 +7,9 @@ useDynLib(GeneticsPed, .registration=TRUE, .fixes="R_")
 
 ## importFrom(gdata, isUnknown, unknownToNA, NAToUnknown)
 
-import(gdata)
+import( gdata )
+import( genetics )
+import( MASS )
 
 export(
        ## Basic stuff

@@ -19,7 +19,7 @@ writePreMakeped <- function()
 
 writeMendel <- function(x, alleleSep="-")
 {
-  x <- GeneticsPed:::checkAttributes(x)
+  x <- checkAttributes(x)
   if(is.na(attr(x, ".family"))) family(x) <- ???
 
   ## Genotypes ?

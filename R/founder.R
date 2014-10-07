@@ -11,7 +11,7 @@
 
 isFounder <- function(x, col=attr(x, ".ascendant"))
 {
-  x <- GeneticsPed:::checkAttributes(x)
+  x <- checkAttributes(x)
   if((l <- length(col)) > 1) {
     return(rowSums(isUnknown(x[, col])) == l)
   } else {

@@ -92,7 +92,7 @@ gpLong2Wide <- function(x, id, genotype, prob, trim=TRUE)
 
   idVal <- unique(x[, id])
   nId <- length(idVal)
-  gen <- expectedGenotypes(allele=allele.names(x[, genotype]))
+  gen <- expectedGenotypes(alleles=allele.names(x[, genotype]))
   nGen <- length(gen)
   gp <- matrix(data=0, nrow=nId, ncol=nGen)
   colnames(gp) <- gen

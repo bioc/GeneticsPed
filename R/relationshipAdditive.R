@@ -19,7 +19,7 @@
 ##   if(sort) idOrig <- as.character(x[[subject]])  # for sorting-back
 
 ##   ## Pedigree must be sorted and extended
-##   x <- GeneticsPed:::checkAttributes(x, sorted=TRUE, extended=TRUE)
+##   x <- checkAttributes(x, sorted=TRUE, extended=TRUE)
 
 ##   n <- nrow(x)
 ##   ret <- matrix(0, n, n)          # n*n matrix
@@ -61,7 +61,7 @@ relationshipAdditive <- function(x, sort=TRUE, names=TRUE, ...){
         stop("no method for pedigree with more than two ascendants")
     if(sort) idOrig <- as.character(x[[subject]]) # for sorting-back
     ## Pedigree must be sorted and extended
-    x <- GeneticsPed:::checkAttributes(x, sorted=TRUE, extended=TRUE)
+    x <- checkAttributes(x, sorted=TRUE, extended=TRUE)
     n <- nrow(x)
     ret <- matrix(0, n, n) # n*n matrix
     diag(ret) <- 1 # diagonal is at least 1

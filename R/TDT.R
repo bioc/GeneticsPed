@@ -19,7 +19,7 @@ geneFlowT <- function(x, sort=TRUE, names=TRUE, ...)
   if(sort) idOrig <- as.character(getId(x))  # for sort-back
 
   ## Pedigree must be extended and sorted
-  x <- GeneticsPed:::checkAttributes(x, extended=TRUE, sorted=TRUE)
+  x <- checkAttributes(x, extended=TRUE, sorted=TRUE)
 
   n <- nrow(x)
   ret <- matrix(0, n, n)         # n*n matrix
@@ -75,7 +75,7 @@ gameteFlowM <- function(x, sort=TRUE, names=TRUE, ...)
   if(sort) idOrig <- as.character(getId(x))  # for sort-back
 
   ## Pedigree must be extended and sorted FIXME?
-  x <- GeneticsPed:::checkAttributes(x, extended=TRUE, sorted=TRUE)
+  x <- checkAttributes(x, extended=TRUE, sorted=TRUE)
 
   n <- nrow(x)
   ret <- matrix(0, n, n)         # n*n matrix

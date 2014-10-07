@@ -13,7 +13,7 @@ generation <- function(x, start=1, generationOrder=NULL)
   idInput <- as.character(x[[subject]])  ## for sorting back
 
   ## Pedigree must be sorted, extended and unknowns must be NA
-  x <- GeneticsPed:::checkAttributes(x, sorted=TRUE, extended=TRUE, unknownNA=TRUE)
+  x <- checkAttributes(x, sorted=TRUE, extended=TRUE, unknownNA=TRUE)
 
   N <- nrow(x)
   ascendant <- attr(x, ".ascendant")

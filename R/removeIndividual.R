@@ -8,7 +8,7 @@
 removeIndividual <- function(x, individual, remove="all")
 {
   ## --- Check ---
-  x <- GeneticsPed:::checkAttributes(x)
+  x <- checkAttributes(x)
   subject <- attr(x, ".subject")
   ascendant <- attr(x, ".ascendant")
 

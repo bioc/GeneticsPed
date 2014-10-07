@@ -7,15 +7,15 @@
 
 nIndividual <- function(x, col=NULL, extend=TRUE, drop=TRUE)
 {
-  x <- GeneticsPed:::checkAttributes(x)
+  x <- checkAttributes(x)
   if(is.null(col)) col <- attr(x, ".subject")
   subject <- attr(x, ".subject")
   if(col == subject & extend) x <- extend(x)
   if(is.factor(x[[col]])) {
-    if(is.list(GeneticsPed:::unusedLevels(x))) {
+    if(is.list(unusedLevels(x))) {
       if(drop) {
         warning("unused levels in 'col' were dropped")
-        x <- GeneticsPed:::dropLevels(x)
+        x <- dropLevels(x)
       } else {
         warning("there are unused levels in 'col'")
       }
@@ -33,7 +33,7 @@ nIndividual <- function(x, col=NULL, extend=TRUE, drop=TRUE)
 
 dropLevels <- function(x)
 {
-  x <- GeneticsPed:::checkAttributes(x)
+  x <- checkAttributes(x)
   col <- c(attr(x, ".subject"), attr(x, ".ascendant"))
   x[, col] <- lapply(x[, col], factor)
   x

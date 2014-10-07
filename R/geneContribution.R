@@ -14,7 +14,7 @@ geneContribution <- function(x, relative=TRUE)
   idInput <- as.character(x[[subject]]) ## for sort-back
 
   ## Pedigree must be sorted, extended and unknowns must be NA
-  x <- GeneticsPed:::checkAttributes(x, sorted=TRUE, extended=TRUE,
+  x <- checkAttributes(x, sorted=TRUE, extended=TRUE,
                                      unknownNA=TRUE)
   z <- rep(1, times=nrow(x))
   names(z) <- x[[subject]]

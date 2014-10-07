@@ -44,7 +44,7 @@ family <- function(x)
   idInput <- as.character(x[[subject]]) ## for sort-back
 
   ## Pedigree must be sorted and extended
-  x <- GeneticsPed:::checkAttributes(x, sort=TRUE, extend=TRUE)
+  x <- checkAttributes( x , sorted = TRUE , extended = TRUE )
   n <- nrow(x)
   f <- n:1                           ## at the start each id is its own family
   names(f) <- x[[subject]]

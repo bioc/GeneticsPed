@@ -14,7 +14,7 @@
 \description{\code{summary.Pedigree} reports TODO.
 }
 
-\usage{summary.Pedigree(object, \ldots)}
+\usage{\method{summary}{Pedigree}(object, \ldots)}
 
 \arguments{
   \item{object}{pedigree object}
