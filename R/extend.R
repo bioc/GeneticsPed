@@ -9,7 +9,7 @@ extend <- function(x, ascendant=NULL, col=NULL, top=TRUE)
 {
   ## --- Setup ---
 
-  x <- GeneticsPed:::checkAttributes(x)
+  x <- checkAttributes(x)
   subject <- attr(x, ".subject")
   if(is.null(ascendant)) ascendant <- attr(x, ".ascendant")
 
