@@ -39,6 +39,7 @@ class TPed
     TPed( string , string , string , int );
     TPed( string );
     TPed( const TPed &copy );
+//    TPed( TPed &&copy );
     ~TPed();
     string ReturnAnimal() const;
     string ReturnSire() const;
@@ -51,7 +52,7 @@ class TPed
     int IsBase() const;
     int Compare( TPed );
     void SetIndex( int , TParents );
-    void SetIndex( int &sindex , int );
+    void SetIndex( int sindex , int );
     void SetSortIndex( int );
     int GetIndex( TParents ) const;
     int GetSortIndex() const { return sort_index; }
@@ -59,11 +60,12 @@ class TPed
     bool operator< ( const TPed& T ) const;
     bool operator== ( const string& arg );
     void operator= ( const TPed &copy );
+//    void operator= ( TPed &&copy );
     void ShowPed() const;
   private:
     void copyPed( const TPed &copy );
     string animal, sire, dam;
-    int *s_index, *d_index, sort_index;
+    int s_index, d_index, sort_index;
     bool hasparents;
 };
 

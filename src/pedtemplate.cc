@@ -19,11 +19,9 @@ TPed::TPed()
   animal = "";
   sire = "";
   dam = "";
-  s_index = new int;
-  d_index = new int;
+  s_index = -1;
+  d_index = -1;
   sort_index = 0;
-  s_index = NULL;
-  d_index = NULL;
   hasparents = false;
 }
 
@@ -31,10 +29,8 @@ TPed::TPed( string a , string s , string d )
 {
   bool parent = false;
   animal = a;
-  s_index = new int;
-  d_index = new int;
-  s_index = NULL;
-  d_index = NULL;
+  s_index = -1;
+  d_index = -1;
   sort_index = 0;
   if ( ( s != "0" ) && ( s != "" ) )
   {
@@ -68,10 +64,8 @@ TPed::TPed( string a , string s , string d , int i )
 {
   bool parent = false;
   animal = a;
-  s_index = new int;
-  d_index = new int;
-  s_index = NULL;
-  d_index = NULL;
+  s_index = -1;
+  d_index = -1;
   sort_index = i;
   if ( ( s != "0" ) && ( s != "" ) )
   {
@@ -106,34 +100,34 @@ TPed::TPed( string a )
   animal = a;
   sire = "";
   dam = "";
-  s_index = new int;
-  d_index = new int;
-  s_index = NULL;
-  d_index = NULL;
+  s_index = -1;
+  d_index = -1;
   sort_index = 0;
   hasparents = false;
 }
 
-TPed::TPed( const TPed &copy ):
- animal(""), sire(""), dam(""), hasparents(false)
+TPed::TPed( const TPed &copy )
 {
-  s_index = new int;
-  d_index = new int;
-  s_index = NULL;
-  d_index = NULL;
-  *this = copy;
+  if ( this == &copy )
+  {
+    return;
+  }
+  copyPed( copy );
 }
-
+/*
+TPed::TPed( TPed &&copy )
+{
+  if ( this == &copy )
+  {
+    copy.TPed();
+    return;
+  }
+  SetPed( copy.animal , copy.sire , copy.dam , copy.sort_index , copy.GetIndex( SIRE ) , copy.GetIndex( DAM ) );
+  copy.TPed();
+}
+*/
 TPed::~TPed()
 {
-  if ( GetIndex( SIRE ) > -1 )
-  {
-    delete s_index;
-  }
-  if ( GetIndex( DAM ) > -1 )
-  {
-    delete d_index;
-  }
 }
 
 string TPed::ReturnAnimal() const
@@ -160,10 +154,6 @@ void TPed::SetPed( string a , string s , string d )
 {
   bool parent = false;
   animal = a;
-  s_index = new int;
-  d_index = new int;
-  s_index = NULL;
-  d_index = NULL;
   if ( ( s != "." ) && ( s != "" ) )
   {
     sire = s;
@@ -196,10 +186,6 @@ void TPed::SetPed( string a , string s , string d , int i )
 {
   bool parent = false;
   animal = a;
-  s_index = new int;
-  d_index = new int;
-  s_index = NULL;
-  d_index = NULL;
   sort_index = i;
   if ( ( s != "." ) && ( s != "" ) )
   {
@@ -233,44 +219,28 @@ void TPed::SetPed( string a , string s , string d , int i , int si , int di )
 {
   bool parent = false;
   animal = a;
-  s_index = new int;
-  d_index = new int;
   sort_index = i;
   if ( ( s != "." ) && ( s != "" ) )
   {
     sire = s;
-    if ( si > -1 )
-    {
-      *s_index = si;
-    }
-    else
-    {
-      s_index = NULL;
-    }
+    SetIndex( si , SIRE );
     parent = true;
   }
   else
   {
     sire = "";
-    s_index = NULL;
+    SetIndex( -1 , SIRE );
   }
   if ( ( d != "." ) && ( d != "" ) )
   {
     dam = d;
-    if ( di > -1 )
-    {
-      *d_index = di;
-    }
-    else
-    {
-      d_index = NULL;
-    }
+    SetIndex( di , DAM );
     parent = true;
   }
   else
   {
     dam = "";
-    d_index = NULL;
+    SetIndex( -1 , DAM );
   }
   if ( parent )
   {
@@ -298,22 +268,20 @@ int TPed::IsBase() const
   }
 }
 
-void TPed::SetIndex( int &index , int par )
+void TPed::SetIndex( int index , int par )
 {
   if ( par == 1 )
   {
     if ( index >= 0 )
     {
-      s_index = new int;
-      *s_index = index;
+      s_index = index;
     }
   }
   else
   {
     if ( index >= 0 )
     {
-      d_index = new int;
-      *d_index = index;
+      d_index = index;
     }
   }
 }
@@ -322,13 +290,11 @@ void TPed::SetIndex( int index , TParents par )
 {
   if ( par == SIRE )
   {
-    s_index = new int;
-    *s_index = index;
+    s_index = index;
   }
   else
   {
-    d_index = new int;
-    *d_index = index;
+    d_index = index;
   }
 }
 
@@ -339,28 +305,14 @@ void TPed::SetSortIndex( int index )
 
 int TPed::GetIndex( TParents par ) const
 {
-  int index = 0;
+  int index = -1;
   if ( par == SIRE )
   {
-    if ( s_index )
-    {
-      index = *s_index;
-    }
-    else
-    {
-      index = -1;
-    }
+    index = s_index;
   }
   else
   {
-    if ( d_index )
-    {
-      index = *d_index;
-    }
-    else
-    {
-      index = -1;
-    }
+    index = d_index;
   }
   return index;
 }
@@ -399,7 +351,18 @@ void TPed::operator= ( const TPed &copy )
   }
   copyPed( copy );
 }
-
+/*
+void TPed::operator= ( TPed &&copy )
+{
+  if ( this == &copy )
+  {
+    copy.TPed();
+    return;
+  }
+  SetPed( copy.animal , copy.sire , copy.dam , copy.sort_index , copy.GetIndex( SIRE ) , copy.GetIndex( DAM ) );
+  copy.TPed();
+}
+*/
 bool TPed::operator< ( const TPed& T ) const
 {
   if ( animal < T.animal )
@@ -428,17 +391,17 @@ bool TPed::operator== ( const string& arg )
 void TPed::ShowPed() const
 {
   Rprintf("Individual: %s Father: %s Mother: %s Index: %d", animal.c_str(), sire.c_str(), dam.c_str() , sort_index);
-  if ( Exists( SIRE ) && ( s_index ) )
+  if ( Exists( SIRE ) )
   {
-    Rprintf(" s_index: %d", *s_index);
+    Rprintf(" s_index: %d", s_index);
   }
   else
   {
     Rprintf(" s_index: NULL");
   }
-  if ( Exists( DAM ) && ( d_index ) )
+  if ( Exists( DAM ) )
   {
-    Rprintf(" d_index: %d\n", *d_index);
+    Rprintf(" d_index: %d\n", d_index);
   }
   else
   {
