@@ -106,30 +106,6 @@ TPed::TPed( string a )
   hasparents = false;
 }
 
-TPed::TPed( const TPed &copy )
-{
-  if ( this == &copy )
-  {
-    return;
-  }
-  copyPed( copy );
-}
-/*
-TPed::TPed( TPed &&copy )
-{
-  if ( this == &copy )
-  {
-    copy.TPed();
-    return;
-  }
-  SetPed( copy.animal , copy.sire , copy.dam , copy.sort_index , copy.GetIndex( SIRE ) , copy.GetIndex( DAM ) );
-  copy.TPed();
-}
-*/
-TPed::~TPed()
-{
-}
-
 string TPed::ReturnAnimal() const
 {
   return animal;
@@ -343,49 +319,14 @@ bool TPed::Exists( TParents par ) const
   }
 }
 
-void TPed::operator= ( const TPed &copy )
-{
-  if ( this == &copy )
-  {
-    return;
-  }
-  copyPed( copy );
-}
-/*
-void TPed::operator= ( TPed &&copy )
-{
-  if ( this == &copy )
-  {
-    copy.TPed();
-    return;
-  }
-  SetPed( copy.animal , copy.sire , copy.dam , copy.sort_index , copy.GetIndex( SIRE ) , copy.GetIndex( DAM ) );
-  copy.TPed();
-}
-*/
 bool TPed::operator< ( const TPed& T ) const
 {
-  if ( animal < T.animal )
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  return animal < T.animal;
 }
 
 bool TPed::operator== ( const string& arg )
 {
-  string tmp = arg;
-  if ( animal == tmp )
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  return animal == arg;
 }
 
 void TPed::ShowPed() const
@@ -407,11 +348,6 @@ void TPed::ShowPed() const
   {
     Rprintf(" d_index: NULL\n");
   }
-}
-
-void TPed::copyPed( const TPed &copy )
-{
-  SetPed( copy.animal , copy.sire , copy.dam , copy.sort_index , copy.GetIndex( SIRE ) , copy.GetIndex( DAM ) );
 }
 
 void Pedigree::CreatePedigree( TPedVec& T )
@@ -499,20 +435,4 @@ int Pedigree::GetIndex( string a )
   {
     return -1;
   }
-}
-
-void Pedigree::operator= ( const Pedigree &copy )
-{
-  if ( this == &copy )
-  {
-    return;
-  }
-  copyPed( copy );
-}
-
-void Pedigree::copyPed( const Pedigree &copy )
-{
-  pedigree = copy.pedigree;
-  effect_label = copy.effect_label;
-  ancestor = copy.ancestor;
 }

@@ -38,9 +38,6 @@ class TPed
     TPed( string , string , string );
     TPed( string , string , string , int );
     TPed( string );
-    TPed( const TPed &copy );
-//    TPed( TPed &&copy );
-    ~TPed();
     string ReturnAnimal() const;
     string ReturnSire() const;
     string ReturnDam() const;
@@ -59,11 +56,8 @@ class TPed
     bool Exists( TParents ) const;
     bool operator< ( const TPed& T ) const;
     bool operator== ( const string& arg );
-    void operator= ( const TPed &copy );
-//    void operator= ( TPed &&copy );
     void ShowPed() const;
   private:
-    void copyPed( const TPed &copy );
     string animal, sire, dam;
     int s_index, d_index, sort_index;
     bool hasparents;
@@ -73,7 +67,6 @@ class Pedigree
 {
   public:
     Pedigree() { ancestor = false; effect_label = ""; }
-    ~Pedigree() { pedigree.erase( pedigree.begin() , pedigree.end() ); }
     void CreatePedigree( TPedVec& );
     void SetAncestor() { ancestor = true; }
     void SetLabel( string label ) { effect_label = label; }
@@ -89,9 +82,7 @@ class Pedigree
     string GetLabel() { return effect_label; }
     string GetMember( int i ) { return pedigree[ i ].ReturnAnimal(); }
     void Erase() { pedigree.erase( pedigree.begin() , pedigree.end() ); }
-    void operator= ( const Pedigree &copy );
   private:
-    void copyPed( const Pedigree &copy );
     TPedVec pedigree;
     string effect_label;
     bool ancestor;

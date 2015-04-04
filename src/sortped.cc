@@ -6,35 +6,38 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
   TPedVec::iterator mp = Pedtmp.begin();
   TPedVec all, finalprogeny;
   vector< string > parlist, sirelist, damlist;
-  while ( !( Pedtmp.empty() ) )
+  for(TPedVec::const_iterator mp = Pedtmp.begin(); mp != Pedtmp.end(); ++mp)
   {
     if ( mp->IsBase() == 1)
     {
-      all.insert( all.end() , *mp );
-      Pedtmp.erase( mp );
+      all.push_back( *mp );
     }
     else
     {
-      finalprogeny.insert( finalprogeny.end() , *mp );
+      finalprogeny.push_back( *mp );
+      // error checking for SIRE
       if ( mp->Exists( SIRE ) )
       {
-        vector< string >::const_iterator fs = find( damlist.begin() , damlist.end() , mp->ReturnSire() );
-        if ( fs != damlist.end() )
+	if(find(damlist.begin() , damlist.end() ,
+		mp->ReturnSire() ) != damlist.end() )
         {
-          Rprintf("Father: %s is also in the pedigree as a mother\n", mp->ReturnSire().c_str());
+          Rprintf("Father: %s is also in the pedigree as a mother\n",
+		  mp->ReturnSire().c_str());
           ped_problem = true;
         }
         if ( mp->ReturnAnimal() == mp->ReturnSire() )
         {
-          Rprintf("Individual: %s is also in the pedigree its father: %s\n", mp->ReturnAnimal().c_str(), mp->ReturnSire().c_str());
+          Rprintf("Individual: %s is also in the pedigree its father: %s\n",
+		  mp->ReturnAnimal().c_str(), mp->ReturnSire().c_str());
           ped_problem = true;
         }
-        sirelist.insert( sirelist.end() , mp->ReturnSire() );
+        sirelist.push_back( mp->ReturnSire() );
       }
+      // error checking for DAM
       if ( mp->Exists( DAM ) )
       {
-        vector< string >::const_iterator fd = find( sirelist.begin() , sirelist.end() , mp->ReturnDam() );
-        if ( fd != sirelist.end() )
+        if(find( sirelist.begin() , sirelist.end() ,
+		 mp->ReturnDam() ) != sirelist.end() )
         {
           Rprintf("Mother: %s is also in the pedigree as a father\n", mp->ReturnDam().c_str());
           ped_problem = true;
@@ -44,31 +47,36 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
           Rprintf("Individual: %s is also in the pedigree its mother: %s\n", mp->ReturnAnimal().c_str(), mp->ReturnDam().c_str());
           ped_problem = true;
         }
-        damlist.insert( damlist.end() , mp->ReturnDam() );
+        damlist.push_back( mp->ReturnDam() );
       }
-      Pedtmp.erase( mp );
     }
   }
   if( ped_problem )
   {
     error("Problems in pedigree.  Stopping inbreeding calculations\n");
   }
+
+  // remove duplicates from sire
   sort( sirelist.begin() , sirelist.end() );
-  vector< string >::iterator s = unique( sirelist.begin() , sirelist.end() );
-  sirelist.erase( s , sirelist.end() );
+  sirelist.erase( unique( sirelist.begin() , sirelist.end() ), sirelist.end() );
+
+  // remove duplicates from dam
   sort( damlist.begin() , damlist.end() );
-  vector< string >::iterator d = unique( damlist.begin() , damlist.end() );
-  damlist.erase( d , damlist.end() );
+  damlist.erase( unique( damlist.begin() , damlist.end() ) , damlist.end() );
+
+  // combine sirelist and damlist into parlist
   parlist.resize( sirelist.size() + damlist.size() );
-  merge( sirelist.begin() , sirelist.end() , damlist.begin() , damlist.end() , parlist.begin() );
-  sirelist.erase( sirelist.begin() , sirelist.end() );
-  damlist.erase( damlist.begin() , damlist.end() );
+  merge( sirelist.begin() , sirelist.end() , damlist.begin() , damlist.end() ,
+	 parlist.begin() );
+
+  // remove dups from parlist
   sort( parlist.begin() , parlist.end() );
-  vector< string >::iterator p = unique( parlist.begin() , parlist.end() );
-  parlist.erase( p , parlist.end() );
+  parlist.erase( unique( parlist.begin() , parlist.end() ) , parlist.end() );
+
   TPedVec::iterator o = finalprogeny.begin();
   TPedVec::iterator a = all.begin();
-  p = parlist.begin();
+
+  vector< string >::iterator p = parlist.begin();
   while ( p != parlist.end() )
   {
     o = find( finalprogeny.begin() , finalprogeny.end() , *p );
@@ -81,12 +89,12 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
       a = find( all.begin() , all.end() , *p );
       if ( a != all.end() )
       {
-        parlist.erase( p );
+        p = parlist.erase( p );
       }
       else
       {
-        all.insert( all.end() , TPed( *p ) );
-        parlist.erase( p );
+        all.push_back( TPed( *p ) );
+        p = parlist.erase( p );
       }
     }
     else
@@ -94,6 +102,7 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
       p++;
     }
   }
+
   if ( !( parlist.empty() ) )
   {
     a = all.begin();
@@ -106,7 +115,7 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
       p = find( parlist.begin() , parlist.end() , a->ReturnAnimal() );
       if ( p != parlist.end() )
       {
-        parlist.erase( p );
+        p = parlist.erase( p );
       }
       a++;
     }
@@ -120,12 +129,11 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
       o = find( finalprogeny.begin() , finalprogeny.end() , *p );
       if ( o != finalprogeny.end() )
       {
-        parents.insert( parents.end() , *o );
-        finalprogeny.erase( o );
+        parents.push_back( *o );
+        o = finalprogeny.erase( o );
       }
       p++;
     }
-    parlist.erase( parlist.begin() , parlist.end() );
   }
   a = all.begin();
   TPedVec::iterator q = parents.begin();
@@ -141,31 +149,19 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
         if ( a != all.end() )
         {
           q->SetIndex( a - all.begin() , DAM );
-          all.insert( all.end() , q->ReturnTPed() );
-          parents.erase( q );
-          if ( q + 1 <= parents.end() )
+          all.push_back( q->ReturnTPed() );
+          q = parents.erase( q );
+          if ( q == parents.end() )
           {
-            q++;
-          }
-          else
-          {
-            q = parents.begin();
+	    q = parents.begin();
           }
         }
-        else if ( q + 1 <= parents.end() )
-        {
-          q++;
-        }
-        else
+        else if ( q == parents.end() )
         {
           q = parents.begin();
         }
       }
-      else if ( q + 1 <= parents.end() )
-      {
-        q++;
-      }
-      else
+      else if ( q == parents.end() )
       {
         q = parents.begin();
       }
@@ -195,31 +191,19 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
         }
         if ( insertQ )
         {
-          all.insert( all.end() , q->ReturnTPed() );
-          parents.erase( q );
-          if ( q + 1 <= parents.end() )
-          {
-            q++;
-          }
-          else
+          all.push_back( q->ReturnTPed() );
+          q = parents.erase( q );
+          if ( q == parents.end() )
           {
             q = parents.begin();
           }
         }
-        else if ( q + 1 <= parents.end() )
-        {
-          q++;
-        }
-        else
+        else if ( q == parents.end() )
         {
           q = parents.begin();
         }
       }
-      else if ( q + 1 <= parents.end() )
-      {
-        q++;
-      }
-      else
+      else if ( q == parents.end() )
       {
         q = parents.begin();
       }
@@ -238,8 +222,8 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
       a = find( all.begin() , all.end() , o->ReturnDam() );
       o->SetIndex( a - all.begin() , DAM );
     }
-    all.insert( all.end() , *o );
-    finalprogeny.erase( o );
+    all.push_back( *o );
+    o = finalprogeny.erase( o );
   }
   Ped.CreatePedigree( all );
 }
