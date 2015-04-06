@@ -30,9 +30,9 @@ void pedSort( int *n , char **ind , char **father , char **mother , char **na_va
   {
     ostringstream kss, pss, mss, tmss, tpss;
     kss << ind[i];
-    vector< string >::const_iterator miss = missing_values.begin();
+    vector< string >::const_iterator miss_iter = missing_values.begin();
     tpss << father[i];
-    if ( ( miss = find( missing_values.begin() , missing_values.end() , tpss.str() ) ) != missing_values.end() )
+    if ( ( miss_iter = find( missing_values.begin() , missing_values.end() , tpss.str() ) ) != missing_values.end() )
     {
       pss << "";
     }
@@ -41,7 +41,7 @@ void pedSort( int *n , char **ind , char **father , char **mother , char **na_va
       pss << father[i];
     }
     tmss << mother[i];
-    if ( ( miss = find( missing_values.begin() , missing_values.end() , tmss.str() ) ) != missing_values.end() )
+    if ( ( miss_iter = find( missing_values.begin() , missing_values.end() , tmss.str() ) ) != missing_values.end() )
     {
       mss << "";
     }
