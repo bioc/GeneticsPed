@@ -3,7 +3,6 @@
 void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
 {
   bool ped_problem = false;
-  TPedVec::iterator mp = Pedtmp.begin();
   TPedVec all, finalprogeny;
   vector< string > parlist, sirelist, damlist;
   for(TPedVec::const_iterator mp = Pedtmp.begin(); mp != Pedtmp.end(); ++mp)
