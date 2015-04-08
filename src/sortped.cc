@@ -138,33 +138,39 @@ void SortPed( Pedigree &Ped , TPedVec &Pedtmp )
   TPedVec::iterator q = parents.begin();
   while ( !( parents.empty() ) )
   {
+    // sire or dam member is set to non-empty string
     if ( q->IsBase() == 0 )
     {
+      // set sire index if sire in all
       a = find( all.begin() , all.end() , q->ReturnSire() );
       if ( a != all.end() )
       {
         q->SetIndex( a - all.begin() , SIRE );
+        // set dam index if dam in all
         a = find( all.begin() , all.end() , q->ReturnDam() );
         if ( a != all.end() )
         {
           q->SetIndex( a - all.begin() , DAM );
           all.push_back( q->ReturnTPed() );
           q = parents.erase( q );
-          if ( q == parents.end() )
+          if ( q < parents.end() )
           {
-	    q = parents.begin();
+              ++q;
           }
         }
-        else if ( q == parents.end() )
+        else if ( q < parents.end() )
         {
-          q = parents.begin();
+            ++q;
         }
       }
-      else if ( q == parents.end() )
+      else if ( q < parents.end() )
       {
-        q = parents.begin();
+          ++q;
       }
+      if( q == parents.end() )
+          q = parents.begin();
     }
+    // no parents
     else
     {
       if ( q->Exists( SIRE ) || q->Exists( DAM ) )
