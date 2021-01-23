@@ -50,26 +50,26 @@ test.gpi <- function()
   ## --- Error checking ---
 
   ## probabilities should lie on interval 0, 1
-  checkException(gpi(gp=-1, hwp=0.5))
-  checkException(gpi(gp=0.5, hwp=5))
+  checkException(gpi(gp=-1, hwp=0.5),silent = TRUE)
+  checkException(gpi(gp=0.5, hwp=5),silent = TRUE)
 
   ## 'gp' and 'hwp' must be numeric vectors or matrices
-  checkException(gpi(gp="0.5", hwp=0.2))
-  checkException(gpi(gp=0.5, hwp=list(0.2)))
-  checkException(gpi(gp=matrix("0.5"), hwp=0.2))
+  checkException(gpi(gp="0.5", hwp=0.2),silent = TRUE)
+  checkException(gpi(gp=0.5, hwp=list(0.2)),silent = TRUE)
+  checkException(gpi(gp=matrix("0.5"), hwp=0.2),silent = TRUE)
 
   ## 'gp' and 'hwp' must be of the same dimension
   gp <- matrix(c(.1, .5, .6, .2), nrow=2, ncol=2, byrow=TRUE)
-  checkException(gpi(gp=gp, hwp=gp[, 1, drop=FALSE]))
+  checkException(gpi(gp=gp, hwp=gp[, 1, drop=FALSE]),silent = TRUE)
   ## if gp and hwp are matrices, they should be of the same dimension
 
-  checkException(gpi(gp=c(.1, .5), hwp=gp[, 1, drop=FALSE]))
+  checkException(gpi(gp=c(.1, .5), hwp=gp[, 1, drop=FALSE]),silent = TRUE)
   ## if gp is vector, then hwp should also be a vector
 
-  checkException(gpi(gp=c(.1, .5), hwp=c(.1)))
+  checkException(gpi(gp=c(.1, .5), hwp=c(.1)),silent = TRUE)
   ## gp and hwp must have the same length
 
-  checkException(gpi(gp=c(.1, .5, .2, .0), hwp=c(.1, .6, .1, .1)))
+  checkException(gpi(gp=c(.1, .5, .2, .0), hwp=c(.1, .6, .1, .1)),silent = TRUE)
   ## wrong number of genotype probabilities
 }
 
@@ -82,13 +82,13 @@ test.gpLong2Wide <- function()
                     gen=c("A/A", "A/B", "B/B", "A/A", "A/B"),
                     pro=c(0.5, 0.25, 0.25, 0.75, 0.25))
 
-  checkException(gpLong2Wide(x=1))
+  checkException(gpLong2Wide(x=1),silent = TRUE)
   ## 'x' must be a data.frame
-  checkException(gpLong2Wide(x=tmp, id=2, genotype="gen", prob="pro"))
+  checkException(gpLong2Wide(x=tmp, id=2, genotype="gen", prob="pro"),silent = TRUE)
   ## 'id', 'genotype', and 'prob' must be character
-  checkException(gpLong2Wide(x=tmp, id="id", genotype="gen", prob="pro"))
+  checkException(gpLong2Wide(x=tmp, id="id", genotype="gen", prob="pro"),silent = TRUE)
   ## 'id', 'genotype', and 'prob' must be column names of 'x'
-  checkException(gpLong2Wide(x=tmp, id="ind", genotype="gen", prob="pro"))
+  checkException(gpLong2Wide(x=tmp, id="ind", genotype="gen", prob="pro"),silent = TRUE)
   ## 'x' must be of a genotype class
 
   if(require(genetics)) {
