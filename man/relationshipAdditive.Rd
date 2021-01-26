@@ -96,6 +96,7 @@ Wright, S. (1922) Coefficients of inbreeding and relationship.
   fractions(A)
   solve(A)
   inverseAdditive(x2.1)
+  relationshipAdditive(x2.1[3:6, ])
   
   ## Compare the speed
   ped <- generatePedigree(nId=10, nGeneration=3, nFather=1, nMother=2)

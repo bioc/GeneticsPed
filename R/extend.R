@@ -51,7 +51,7 @@ extend <- function(x, ascendant=NULL, col=NULL, top=TRUE)
         }
         ## Using c() to convert table to a vector
         new[[genAttr]] <- c(tapply(x[notIn, genAttr],
-                                   c(x[notIn, ascendant[i]]), fun,
+                                   as.character(x[notIn, ascendant[i]]), fun,
                                    na.rm=TRUE)) - 1
       }
 

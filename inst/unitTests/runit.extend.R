@@ -43,9 +43,9 @@ test.extend <- function() {
   x2.1TestAgainst[isFounder(x2.1TestAgainst), "dtB"] <- NA
   ## Extending does not care the order or individuals and factor levels
   for(i in seq(along=names(x2.1Test))) {
-    if(is.factor(x2.1Test[,i])) {
-      x2.1Test[,i] <- as.character(x2.1Test[,i])
-      x2.1TestAgainst[,i] <- as.character(x2.1TestAgainst[,i])
+    if(is.factor(x2.1Test[[i]])) {
+      x2.1Test[[i]] <- as.character(x2.1Test[[i]])
+      x2.1TestAgainst[[i]] <- as.character(x2.1TestAgainst[[i]])
     }
   }
   x2.1TestAgainst <- x2.1TestAgainst[order(x2.1TestAgainst$sub), ]
